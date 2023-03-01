@@ -1,0 +1,19 @@
+.login_title-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 40px;
+}
+
+.login_logins{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.login_logins > *{
+    margin-bottom: 20px;
+}
