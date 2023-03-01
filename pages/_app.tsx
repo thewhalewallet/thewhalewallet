@@ -1,5 +1,6 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
 
 import '@rainbow-me/rainbowkit/styles.css';
 
@@ -22,12 +23,14 @@ const wagmiClient = createClient({
   provider,
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />;
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <SessionProvider session={session}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <Component {...pageProps} />;
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </SessionProvider>
   );
 }
