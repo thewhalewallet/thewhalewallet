@@ -1,4 +1,4 @@
-import React, { Component, ReactComponentElement } from 'react';
+import React, { Component, ReactComponentElement, useEffect } from 'react';
 import BasicLayout from './BasicLayout';
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -13,10 +13,15 @@ const drawerStyle={
     top: "0",
 }
 
-const viewportWidth = window.innerWidth;
 
 export default function FullPageDrawer({open, close, removeChevron = false, crumbName, navTitle, navActionButton, bodyContent } : 
     { open: boolean, close: () => void, removeChevron: boolean, crumbName: string, navTitle: string, navActionButton: React.ReactNode, bodyContent: React.ReactNode }) {
+    
+    let [viewportWidth, setViewportWidth] = React.useState(0);
+
+    useEffect(() => {
+        setViewportWidth(window.innerWidth);
+    }, []);
 
     
     const navContent = (

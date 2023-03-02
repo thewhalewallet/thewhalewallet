@@ -72,6 +72,8 @@ function Wallets() {
         
     );
 
+    const drawerBody = (<>  </>);
+
     return (
         <div>
             <BasicLayout navContent={navContent} bodyContent={bodyContent} />
@@ -85,7 +87,7 @@ function Wallets() {
                         <FontAwesomeIcon icon={faPlus} size="lg"/>
                     </>
                 }
-                bodyContent={(<div style={{backgroundColor: "red"}}>DRAWER BODY</div>)}
+                bodyContent={drawerBody}
                 open={contactsOpen} 
             />
         </div>
