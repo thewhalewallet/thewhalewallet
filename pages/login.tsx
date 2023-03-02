@@ -12,7 +12,7 @@ function Login() {
     const bodyContent = (
         <>
             <div className="login_title-logo">
-                <h1>The Wale Wallet</h1>
+                <h1>The Whale Wallet</h1>
                 <img style={{width: "200px"}} src={logo.src} alt="TheWaleWallet Logo"/>
             </div>
             <div className="login_logins">

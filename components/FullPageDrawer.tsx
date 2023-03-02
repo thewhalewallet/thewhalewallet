@@ -1,18 +1,59 @@
-import React, { Component } from 'react';
+import React, { Component, ReactComponentElement } from 'react';
 import BasicLayout from './BasicLayout';
 
-const basicLayoutStyle={
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import Drawer from '@mui/material/Drawer';
+
+const drawerStyle={
     width: "100%",
     height: "100%",
-    padding: "20px",
-    backgroundColor: "white",
+    position: "absolute",
+    top: "0",
 }
 
-export default function FullPageDrawer({ basicLayoutComponent } : { basicLayoutComponent: React.ReactNode }) {
-    return (
-        <div style={basicLayoutStyle}>
+const viewportWidth = window.innerWidth;
 
+export default function FullPageDrawer({open, close, removeChevron = false, crumbName, navTitle, navActionButton, bodyContent } : 
+    { open: boolean, close: () => void, removeChevron: boolean, crumbName: string, navTitle: string, navActionButton: React.ReactNode, bodyContent: React.ReactNode }) {
+
+    
+    const navContent = (
+        <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{display: "flex", alignItems: "center", flexBasis:"0%", flexGrow:1}} onClick={()=>close()}>
+                {!removeChevron ? 
+                    <FontAwesomeIcon icon={faChevronLeft} size="lg"/> :
+                    <></>
+                }
+                <h3>{crumbName}</h3>
+            </div>
+            <h3>{navTitle}</h3>
+            <div style={{flexBasis:"0%", flexGrow:1, textAlign: "right"}}>
+                {navActionButton}
+            </div>
         </div>
+    );
+
+    return (
+        // <div style={{...drawerStyle, visibility: open ? "visible" : "hidden"}}>
+        //     <BasicLayout navContent={navContent} bodyContent={bodyContent}/>
+        // </div>
+        <Drawer
+            sx={{
+            width: viewportWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+                width: viewportWidth,
+                boxSizing: 'border-box',
+            },
+            }}
+            variant="persistent"
+            anchor="left"
+            open={open}
+        >
+            <BasicLayout navContent={navContent} bodyContent={bodyContent}/>
+        </Drawer>
     );
 }
 
