@@ -14,8 +14,8 @@ const drawerStyle={
 }
 
 
-export default function FullPageDrawer({open, close, removeChevron = false, crumbName, navTitle, navActionButton, bodyContent } : 
-    { open: boolean, close: () => void, removeChevron: boolean, crumbName: string, navTitle: string, navActionButton: React.ReactNode, bodyContent: React.ReactNode }) {
+export default function FullPageDrawer({anchor, open, close, removeChevron = false, crumbName, navTitle, navActionButton, bodyContent } : 
+    { anchor: string, open: boolean, close: () => void, removeChevron: boolean, crumbName: string, navTitle: string, navActionButton: React.ReactNode, bodyContent: React.ReactNode }) {
     
     let [viewportWidth, setViewportWidth] = React.useState(0);
 
@@ -51,7 +51,7 @@ export default function FullPageDrawer({open, close, removeChevron = false, crum
             },
             }}
             variant="persistent"
-            anchor="left"
+            anchor={anchor}
             open={open}
         >
             <BasicLayout navContent={navContent} bodyContent={bodyContent}/>

@@ -88,19 +88,18 @@ function Wallets() {
         
     );
 
-    const drawerBody = (<>  </>);
-
     return (
         <div>
             <BasicLayout navContent={navContent} bodyContent={bodyContent} />
             <FullPageDrawer
+                anchor="left"
                 close={closeContacts}
                 removeChevron={false}
                 crumbName="Wallets"
                 navTitle="Contacts"
                 navActionButton={
                     <>
-                        <FontAwesomeIcon icon={faPlus} size="lg"/>
+                        <FontAwesomeIcon icon={faPlus} size="lg" onClick={}/>
                     </>
                 }
                 bodyContent={(<ContactList contacts={hardcodedContacts}/>)}

@@ -26,6 +26,7 @@ export default function ContactList({ contacts } : { contacts: any }) {
                 ))}
             </List>
             <FullPageDrawer
+                anchor = "left"
                 close={()=>{setContactDrawerOpen(false)}}
                 removeChevron={false}
                 crumbName="Contacts"
