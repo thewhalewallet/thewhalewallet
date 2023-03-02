@@ -41,9 +41,6 @@ export default function FullPageDrawer({open, close, removeChevron = false, crum
     );
 
     return (
-        // <div style={{...drawerStyle, visibility: open ? "visible" : "hidden"}}>
-        //     <BasicLayout navContent={navContent} bodyContent={bodyContent}/>
-        // </div>
         <Drawer
             sx={{
             width: viewportWidth,

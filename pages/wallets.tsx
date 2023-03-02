@@ -13,9 +13,26 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
+import ContactList from '@/components/contactList';
 
 
-
+const hardcodedContacts = [
+    {
+        id: 1,
+        name: "John Doe",
+        address: "0x1234567890",
+    },
+    {
+        id: 2,
+        name: "Jane Doe",
+        address: "0x1234567890",
+    },
+    {
+        id: 3,
+        name: "John Smith",
+        address: "0x1234567890",
+    },
+];
 
 function Wallets() {
 
@@ -67,7 +84,6 @@ function Wallets() {
 
                 </div>
             </div>
-            
         </div>
         
     );
@@ -87,8 +103,8 @@ function Wallets() {
                         <FontAwesomeIcon icon={faPlus} size="lg"/>
                     </>
                 }
-                bodyContent={drawerBody}
-                open={contactsOpen} 
+                bodyContent={(<ContactList contacts={hardcodedContacts}/>)}
+                open={contactsOpen}
             />
         </div>
     );
