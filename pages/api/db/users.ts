@@ -5,6 +5,7 @@ const uri = `mongodb+srv://admin:${process.env.DB_KEY}@whalewallet.tj5l6ae.mongo
 
 interface Wallet {
   address: string;
+  name: string;
   ens: string;
   lens: string;
   isFavorite: boolean;
@@ -30,6 +31,7 @@ const UsersSchema = new Schema<Users>({
   wallets: [
     {
       address: { type: String, required: true },
+      name: { type: String, required: false, default: ''},
       ens: { type: String, required: false, default: '' },
       lens: { type: String, required: false, default: '' },
       isFavorite: { type: Boolean, required: false, default: false },
