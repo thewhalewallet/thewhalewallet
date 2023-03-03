@@ -59,12 +59,27 @@ async function getUser(id: string): Promise<any> {
   });
 }
 
-async function addWalletToUser(id: string, wallet: Wallet) {
+async function addWallet(user: Users, wallet: Wallet) {
   const users = await initMongo();
   await users
-    .updateOne({ oauth: id }, { $push: { wallets: wallet } })
+    .updateOne({ oauth: user.oauth}, { $push: { wallets: wallet } })
     .catch((err) => {
       throw Error('Failed to add wallet');
+    });
+}
+
+async function removeWallet(user: Users, wallet: Wallet) {
+  const users = await initMongo();
+  // await users
+  //   .updateOne({ oauth: user.oauth}, { $pull: { $in: {"address": wallet.address} } })
+  //   .catch((err) => {
+  //     throw Error('Failed to add wallet');
+  //   });
+
+    await users
+    .updateOne({ oauth: user.oauth}, { $pull: { wallets: { address: wallet.address } }})
+    .catch((err) => {
+      throw Error('Failed to delete wallet');
     });
 }
 
@@ -90,12 +105,21 @@ export default async function handler(
 
           await createUser(user);
           if (wallet) {
-            await addWalletToUser(user.oauth, wallet);
+            await addWallet(user, wallet);
             res.status(200).json({ message: 'Added wallet to user' });
           }
           else {
             res.status(200).json({ message: 'Added user' });
           }
+        }
+        break;
+
+      case 'DELETE':
+        {
+          const user = req.body.user as Users;
+          const wallet = req.body.wallet as Wallet;
+          await removeWallet(user, wallet);
+          res.status(200).json({ message: 'Removed wallet from user' });
         }
         break;
 
