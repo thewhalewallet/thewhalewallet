@@ -10,7 +10,6 @@ export default function DynWallet() {
                 environmentId: '18fa6c3f-9025-4c9b-8f5b-02eff904aa72'
             }}
         >
-
             <DynamicWidget />
         </DynamicContextProvider>
     );
