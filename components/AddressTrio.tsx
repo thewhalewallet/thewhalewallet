@@ -24,9 +24,9 @@ function AddressChip({label} : {label: string}) {
     );
 }
 
-export default function AddressTrio(addressTrio: IAddressTrio) {
+export default function AddressTrio({key, addressTrio}: {key: string, addressTrio: IAddressTrio}) {
     return (
-        <div style={trioBoxStyle}>
+        <div>
             <AddressChip label={"Wallet Address: " + addressTrio.walletAddress} />
             <AddressChip label={"ENS Address: " + addressTrio.ensAddress} />
             <AddressChip label={"LENS Address: " + addressTrio.lensAddress} />
