@@ -77,14 +77,17 @@ export default async function handler(req: PlaidHook, res: NextApiResponse) {
           (err, data) => {
             if (err) {
               console.log(err);
+              res.status(500).json({ error: err });
             }
-
-            const buffer = aws_client
-              .getObject({
-                Bucket: 'whalewallet',
-                Key: `${response.data.request_id}.json`,
-              })
-              .createReadStream();
+            else {
+              aws_client
+                .getObject({
+                  Bucket: 'whalewallet',
+                  Key: `${req.body.item_id}.json`,
+                })
+                .createReadStream();
+              res.status(200).json({});
+            }
           }
         );
       });
