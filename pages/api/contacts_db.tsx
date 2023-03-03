@@ -1,81 +1,100 @@
-import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import mongoose, { Schema, Model } from 'mongoose';
 
-const uri = `mongodb+srv://admin:${process.env.DB_KEY}@whalewallet.tj5l6ae.mongodb.net/?retryWrites=true&w=majority`;
-const dbClient = new MongoClient(uri);
-const dbName = 'whalewallet';
+const uri = `mongodb+srv://admin:${process.env.DB_KEY}@whalewallet.tj5l6ae.mongodb.net/whalewallet?retryWrites=true&w=majority`;
 
-async function getContacts(user: string) {
-  await dbClient.connect();
-
-  const db = dbClient.db(dbName);
-  const collection = db.collection('contacts');
-
-  const contacts = await collection.findOne({ user: user }).then((result) => {
-    return result?.contacts as string[];
-  });
-  return contacts;
+interface Contact {
+  name: String;
+  address: String;
+  ens: String;
+  lens: String;
+  isFavorite: Boolean;
 }
 
-async function createUser(user: string) {
-  await dbClient.connect();
-
-  const db = dbClient.db(dbName);
-  const collection = db.collection('contacts');
-
-  await collection.insertOne({ user: user, contacts: [] });
+interface Contacts {
+  user: String;
+  contacts: Contact[];
 }
 
-async function addContact(user: string, contact: string) {
-  await dbClient.connect();
+const ContactListSchema = new Schema<Contacts>({
+  user: { type: String, required: true, unique: true },
+  contacts: [
+    {
+      name: { type: String, required: true },
+      address: { type: String, required: true },
+      ens: { type: String, required: false },
+      lens: { type: String, required: false },
+      isFavorite: { type: Boolean, required: false, default: false },
+    },
+  ],
+});
 
-  const db = dbClient.db(dbName);
-  const collection = db.collection('contacts');
-
-  let contacts = await collection.findOne({ user: user }).then((result) => {
-    return result?.contacts as string[];
+async function initMongo(): Promise<Model<Contacts>> {
+  const client = await mongoose.connect(uri).catch((err) => {
+    throw Error('Failed to connect to database');
   });
+  return client.model<Contacts>('contact', ContactListSchema);
+}
 
-  if (contacts === undefined) {
-    await createUser(user);
-    contacts = [];
-  } else if (contacts.includes(contact)) {
-    return;
+async function doesNotExist(user: string): Promise<boolean> {
+  const contacts = await initMongo();
+  const exists = await contacts.exists({ user: user });
+  return exists === null;
+}
+
+async function createUser(user: string): Promise<void> {
+  const contacts = await initMongo();
+  await contacts.create({ user: user, contacts: [] }).catch((err) => {
+    throw Error('Failed to create user');
+  });
+}
+
+async function getUser(user: string): Promise<any> {
+  const contacts = await initMongo();
+  if (user === undefined || user === '') {
+    return await contacts.find().catch((err) => {
+      throw Error('Failed to find all users');
+    });
+  } else if (await doesNotExist(user)) {
+    throw Error('User does not exist');
+  } else {
+    return await contacts.find({ user: user }).catch((err) => {
+      throw Error('Failed to find user');
+    });
   }
-
-  contacts.push(contact);
-
-  await collection.insertOne({ user: user, contacts: contacts });
 }
 
-async function removeContact(user: string, contact: string) {
-  await dbClient.connect();
-
-  const db = dbClient.db(dbName);
-  const collection = db.collection('contacts');
-
-  let contacts = await collection.findOne({ user: user }).then((result) => {
-    return result?.contacts as string[];
+async function addContact(user: string, contact: Contact) {
+  const contacts = await initMongo();
+  await contacts.updateOne({ user: user }, { $push: { contacts: contact } }).catch((err) => {
+    throw Error('Failed to add contact');
   });
-
-  if (contacts === undefined || !contacts.includes(contact)) {
-    return;
-  }
-
-  await collection.deleteOne({ user: user, contacts: contact });
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    const contacts = await getContacts(req.body.user);
-    res.status(200).json({ contacts: contacts });
-  } else if (req.method === 'POST') {
-    await addContact(req.body.user, req.body.contact);
-    res.status(200).json({ success: true });
-  } else if (req.method === 'DELETE') {
-    await removeContact(req.body.user, req.body.contact);
-    res.status(200).json({ success: true });
-  } else {
-    res.status(400).json({ error: 'Invalid request method' });
+  const user = req.body.user as string;
+  const contact = req.body.contact as Contact;
+
+  try {
+    switch (req.method) {
+      case 'GET':
+        const data: Contact = await getUser(user);
+        res.status(200).json(data);
+        break;
+
+      case 'POST':
+        if (await doesNotExist(user)) {
+          await createUser(user);
+        }
+        await addContact(user, contact);
+        res.status(200).json({ message: 'Contact added' });
+        break;
+
+      default:
+        res.status(405).json({ error: 'Method not allowed' });
+        break;
+    }
+  } catch (err) {
+    res.status(500).json({ error: (err as Error).message });
   }
 }
