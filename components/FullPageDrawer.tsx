@@ -4,7 +4,7 @@ import BasicLayout from './BasicLayout';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Drawer from '@mui/material/Drawer';
+import Drawer, { DrawerProps } from '@mui/material/Drawer';
 
 const drawerStyle={
     width: "100%",
@@ -14,16 +14,9 @@ const drawerStyle={
 }
 
 
-export default function FullPageDrawer({anchor, open, close, removeChevron = false, crumbName, navTitle, navActionButton, bodyContent } : 
-    { anchor: string, open: boolean, close: () => void, removeChevron: boolean, crumbName: string, navTitle: string, navActionButton: React.ReactNode, bodyContent: React.ReactNode }) {
-    
-    let [viewportWidth, setViewportWidth] = React.useState(0);
+export default function FullPageDrawer({anchor, open, close, removeChevron = false, crumbName, navTitle, navActionText, navActionClickHandler, bodyContent } : 
+    { anchor: any, open: boolean, close: () => void, removeChevron: boolean, crumbName: string, navTitle: string, navActionText: string, navActionClickHandler: () => void, bodyContent: React.ReactNode }) {
 
-    useEffect(() => {
-        setViewportWidth(window.innerWidth);
-    }, []);
-
-    
     const navContent = (
         <div style={{display: "flex", alignItems: "center"}}>
             <div style={{display: "flex", alignItems: "center", flexBasis:"0%", flexGrow:1}} onClick={()=>close()}>
@@ -31,24 +24,28 @@ export default function FullPageDrawer({anchor, open, close, removeChevron = fal
                     <FontAwesomeIcon icon={faChevronLeft} size="lg"/> :
                     <></>
                 }
-                <h3>{crumbName}</h3>
+                <h4>{crumbName}</h4>
             </div>
             <h3>{navTitle}</h3>
-            <div style={{flexBasis:"0%", flexGrow:1, textAlign: "right"}}>
-                {navActionButton}
-            </div>
+            <h4 style={{flexBasis:"0%", flexGrow:1, textAlign: "right"}}
+                onClick={()=>navActionClickHandler()}
+            >
+                {navActionText}
+            </h4>
         </div>
     );
 
     return (
         <Drawer
             sx={{
-            width: viewportWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-                width: viewportWidth,
-                boxSizing: 'border-box',
-            },
+                height: "98%",
+                width: "100%",
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                    height: "98%",
+                    width: "100%",
+                    boxSizing: 'border-box',
+                },
             }}
             variant="persistent"
             anchor={anchor}

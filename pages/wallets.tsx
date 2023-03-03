@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import BasicLayout from '@/components/BasicLayout';
-import logo from '/public/theWaleWalletLogo.jpeg';
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons'
@@ -10,11 +9,20 @@ import FullPageDrawer from '@/components/FullPageDrawer';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import ContactList from '@/components/ContactList';
+import AddContact from '@/components/AddContact';
 
-import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
-import ContactList from '@/components/contactList';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
+import { ethers } from 'ethers';
+
+import { connect } from '@wagmi/core';
+import { disconnect } from '@wagmi/core';
+
+import { InjectedConnector } from '@wagmi/core/connectors/injected';
+import { useAccount, useConnect, useEnsName, useBalance, useDisconnect } from 'wagmi';
+import IAddressTrio from '@/components/types/AddressTrio';
+import IWallet from '@/components/types/Wallet';
 
 const hardcodedContacts = [
     {
@@ -33,28 +41,68 @@ const hardcodedContacts = [
         address: "0x1234567890",
     },
 ];
+const EthProvider =
+    new ethers.providers.JsonRpcProvider('https://mainnet.infura.io/v3/14701777a25c45b0ad74cf9bd1e8b03a');
+
+async function checkBalanceEth(address: string) {
+    let balance = await EthProvider.getBalance(address);
+    return balance;
+}
 
 function Wallets() {
+    const [connectedAddress, setConnectedAddress] = React.useState("");
+    const [connectedBalance, setConnectedBalance] = React.useState("");
+    const [wallets, setWallets] = React.useState<IWallet[]>([]);
 
-    let [contactsOpen, setContactsOpen] = React.useState(false);
+    let [contactListOpen, setContactListOpen] = React.useState(false);
+    let [createContactOpen, setCreateContactOpen] = React.useState(false);
 
-    const showContacts = () => {
-        console.log("showContacts");
-        setContactsOpen(true);
+    const showContactList = () => {
+        setContactListOpen(true);
     }
 
-    const closeContacts = () => {
-        console.log("closeContacts");
-        setContactsOpen(false);
+    const closeContactList = () => {
+        setContactListOpen(false);
+    }
+
+    const closeCreateContact = () => {
+        console.log("closeAddContact");
+        setCreateContactOpen(false);
+    }
+
+    const createContact = () => {
+        console.log("create contact");
+        setCreateContactOpen(true);
+    }
+
+    const doneCreatingContact = () =>{
+        console.log("create contact done");
+    }
+
+    const connectNewWallet = async () => {
+        console.log("connect new wallet");
+        let result = await connect({
+            connector: new InjectedConnector(),
+        });
+        let balance = await checkBalanceEth(result.account);
+        let newWallet = {
+            addressTrio: {
+                walletAddress: result.account,
+                ensAddress: "",
+                lensAddress: "",
+            },
+            balance: 10.0,
+        } as IWallet;
+        setWallets([...wallets, newWallet]);
+        console.log(result);
+        await disconnect();
     }
 
     const navContent = (
-        <>
-            <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                <h2>Wallets</h2>
-                <FontAwesomeIcon icon={faAddressBook} size="lg" onClick={() => showContacts()}/>
-            </div>
-        </>
+        <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+            <h2>Wallets</h2>
+            <FontAwesomeIcon icon={faAddressBook} size="lg" onClick={() => showContactList()}/>
+        </div>
     );
 
     const [cryptoDisplayOption, setCryptoDisplayOption] = React.useState("Wallets");
@@ -69,10 +117,12 @@ function Wallets() {
                     <div className="stat">
                         <div className="stat-title">Total Balance</div>
                         <div className="stat-value">{totalBalance}</div>
-                        {/* <div className="stat-desc">21% more than last month</div> */}
                     </div>
                 </div>
             </div>
+            <Button onClick={()=> connectNewWallet()}>Connect Wallet</Button>
+            <div>{connectedAddress}</div>
+            <div>{connectedBalance}</div>
             {/* Crypto wallets */}
             <div>
                 <div style={{display: "flex"}}>
@@ -81,8 +131,12 @@ function Wallets() {
                         <Button>Wallets</Button>
                         <Button>Cryptos</Button>
                     </ButtonGroup>
-
                 </div>
+                {/* <div>
+                    {wallets.map((wallet) => {
+                        return (
+                             */}
+
             </div>
         </div>
         
@@ -93,17 +147,25 @@ function Wallets() {
             <BasicLayout navContent={navContent} bodyContent={bodyContent} />
             <FullPageDrawer
                 anchor="left"
-                close={closeContacts}
+                close={closeContactList}
                 removeChevron={false}
                 crumbName="Wallets"
                 navTitle="Contacts"
-                navActionButton={
-                    <>
-                        <FontAwesomeIcon icon={faPlus} size="lg" onClick={}/>
-                    </>
-                }
+                navActionText="+"
+                navActionClickHandler={createContact}
                 bodyContent={(<ContactList contacts={hardcodedContacts}/>)}
-                open={contactsOpen}
+                open={contactListOpen}
+            />
+            <FullPageDrawer
+                anchor="bottom"
+                close={closeCreateContact}
+                removeChevron={true}
+                crumbName="Cancel"
+                navTitle="New Contact"
+                navActionText="Done"
+                navActionClickHandler={doneCreatingContact}
+                bodyContent={<><AddContact/></>}
+                open={createContactOpen}
             />
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import FullPageDrawer from './FullPageDrawer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Contact from './Contact';
 
 
 export default function ContactList({ contacts } : { contacts: any }) {
@@ -12,6 +12,10 @@ export default function ContactList({ contacts } : { contacts: any }) {
         console.log("open contact");
         setSelectedContact(contact);
         setContactDrawerOpen(true);
+    }
+
+    const editContact = () => {
+        console.log("edit contact");
     }
 
     return (
@@ -31,12 +35,9 @@ export default function ContactList({ contacts } : { contacts: any }) {
                 removeChevron={false}
                 crumbName="Contacts"
                 navTitle="Contact"
-                navActionButton={
-                    <>
-                        <div>Edit</div>
-                    </>
-                }
-                bodyContent={(<div>contact</div>)}
+                navActionText="Edit"
+                navActionClickHandler={editContact}
+                bodyContent={(<div></div>)}
                 open={contactDrawerOpen}
             />
         </div>
