@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import TopNav from './TopNav';
+import Navbar from './Navbar';
+import TopNav from './Navbar';
 
 const basicLayoutStyle={
     width: "100%",
@@ -16,7 +17,7 @@ const bodyStyle = {
 export default function basicLayout({ navContent, bodyContent } : { navContent: React.ReactNode, bodyContent: React.ReactNode }) {
     return (
         <div style={basicLayoutStyle}>
-            <TopNav navContent={navContent} />
+            <Navbar />
             <div style={bodyStyle}>
                 { bodyContent }
             </div>
