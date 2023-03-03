@@ -1,36 +1,31 @@
 import '@/styles/globals.css';
+import '@/styles/login.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 
 import '@rainbow-me/rainbowkit/styles.css';
 
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
-const { chains, provider } = configureChains(
-  [mainnet, polygon, optimism, arbitrum],
-  [alchemyProvider({ apiKey: process.env.ALCHEMY_KEY as string }), publicProvider()]
-);
-const { connectors } = getDefaultWallets({
-  appName: 'WhaleWallet',
-  chains,
-});
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-});
+import { DynamicContextProvider, DynamicWidget} from '@dynamic-labs/sdk-react';
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+
+//
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
-          <Component {...pageProps} />;
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </SessionProvider>
+    <>
+      <Component {...pageProps} />
+
+      <DynamicContextProvider
+        settings={{
+          appLogoUrl:
+            'public/theWaleWalletLogo.jpeg',
+          appName: 'The Whale Wallet',
+          environmentId: '18fa6c3f-9025-4c9b-8f5b-02eff904aa72'
+        }}
+      >
+
+      <DynamicWidget /> 
+      </DynamicContextProvider>
+    </>
   );
 }
