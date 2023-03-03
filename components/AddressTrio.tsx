@@ -24,7 +24,7 @@ function AddressChip({label} : {label: string}) {
     );
 }
 
-export default function AddressTrio({key, addressTrio}: {key: string, addressTrio: IAddressTrio}) {
+export default function AddressTrio({ addressTrio}: {key: string, addressTrio: IAddressTrio}) {
     return (
         <div>
             <AddressChip label={"Wallet Address: " + addressTrio.walletAddress} />

@@ -17,7 +17,7 @@ function Login() {
             </div>
             <div className="login_logins">
                 <h3>Sign in : </h3>
-                <GoogleOAuthProvider clientId=''>
+                {/* <GoogleOAuthProvider clientId=''>
                     <GoogleLogin 
                         onSuccess={credentialResponse => {
                             console.log(credentialResponse);
@@ -26,8 +26,8 @@ function Login() {
                             console.log('Login Failed');
                         }}
                     />
-                </GoogleOAuthProvider>
-                <AppleLogin clientId='' redirectURI='' />
+                </GoogleOAuthProvider> */}
+                {/* <AppleLogin clientId='' redirectURI='' /> */}
             </div>
         </>
     );

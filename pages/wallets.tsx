@@ -24,6 +24,9 @@ import { useAccount, useConnect, useEnsName, useBalance, useDisconnect } from 'w
 import IAddressTrio from '@/components/types/AddressTrio';
 import IWallet from '@/components/types/Wallet';
 
+
+
+
 const hardcodedContacts = [
     {
         id: 1,
@@ -81,21 +84,22 @@ function Wallets() {
 
     const connectNewWallet = async () => {
         console.log("connect new wallet");
-        let result = await connect({
-            connector: new InjectedConnector(),
-        });
-        let balance = await checkBalanceEth(result.account);
-        let newWallet = {
-            addressTrio: {
-                walletAddress: result.account,
-                ensAddress: "",
-                lensAddress: "",
-            },
-            balance: 10.0,
-        } as IWallet;
-        setWallets([...wallets, newWallet]);
-        console.log(result);
-        await disconnect();
+
+        // let result = await connect({
+        //     connector: new InjectedConnector(),
+        // });
+        // let balance = await checkBalanceEth(result.account);
+        // let newWallet = {
+        //     addressTrio: {
+        //         walletAddress: result.account,
+        //         ensAddress: "",
+        //         lensAddress: "",
+        //     },
+        //     balance: 10.0,
+        // } as IWallet;
+        // setWallets([...wallets, newWallet]);
+        // console.log(result);
+        // await disconnect();
     }
 
     const navContent = (
