@@ -10,7 +10,7 @@ interface LinkProps {
 const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
   const onSuccess = React.useCallback(async (public_token: string, metadata: any) => {
     // send public_token to server to exchange for access_token and store in db
-    await axios.post('/api/set_access_token', { public_token }).catch((error) => {
+    await axios.post('/api/plaid/set_access_token', { public_token }).catch((error) => {
       console.log(`axios.post() failed: ${error}`);
     });
   }, []);

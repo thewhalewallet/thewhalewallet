@@ -90,7 +90,8 @@ export default async function handler(req: PlaidHook, res: NextApiResponse) {
       });
 
     res.status(200);
-  } else {
+  }
+ else {
     res.status(200);
   }
 }
