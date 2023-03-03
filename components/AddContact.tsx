@@ -27,22 +27,29 @@ export default function AddContact() {
             <TextField fullWidth 
                 placeholder="Name" 
                 id="contact_name" 
-                onChange={(e)=>{setContactName(e.target.value)}}
+                onChange={(e) => {
+                    setContactName(e.target.value)
+                }}
             />
             <div>
                 <TextField fullWidth
                     placeholder="Wallet adress, ENS or LENS" 
                     id="contact_address" 
-                    onChange={(e)=>{setPotentialWallet(e.target.value)}}
+                    onChange={(e) => {
+                        setPotentialWallet(e.target.value)
+                    }}
                 />
                 {/* Show address trio created when typing in textfield */}
-                <div style={potentialAddressTrio} onClick={()=>{addAddressTrio()}}>
+                <div style={potentialAddressTrio} onClick={() => {
+                    addAddressTrio()
+                }}>
                     <AddressTrio
-                        addressTrio={{
-                            walletAddress:"0xadfalskweo23909fnafn23d",
-                            ensAddress:"verygoodname.eth",
-                            lensAddress:"verygoodname.lens.eth"
-                        }
+                        addressTrio={
+                            {
+                                walletAddress:"0xadfalskweo23909fnafn23d",
+                                ensAddress:"verygoodname.eth",
+                                lensAddress:"verygoodname.lens.eth"
+                            }
                         }
                     />
                 </div>

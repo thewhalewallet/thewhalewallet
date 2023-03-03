@@ -2,19 +2,16 @@ import '@/styles/globals.css';
 import '@/styles/login.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
-
-import '@rainbow-me/rainbowkit/styles.css';
-
 import { DynamicContextProvider, DynamicWidget} from '@dynamic-labs/sdk-react';
 
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
-//
-export default function App({ Component, pageProps }: AppProps) {
+
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <>
-      <Component {...pageProps} />
-
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
       <DynamicContextProvider
         settings={{
           appLogoUrl:

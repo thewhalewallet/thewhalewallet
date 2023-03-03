@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
+import Image from 'next/image';
 import logo from '/public/theWaleWalletLogo.jpeg';
 import BasicLayout from '@/components/BasicLayout';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
-
-import AppleLogin from 'react-apple-login'
 
 function Login() {
 
@@ -13,7 +10,7 @@ function Login() {
         <>
             <div className="login_title-logo">
                 <h1>The Whale Wallet</h1>
-                <img style={{width: "200px"}} src={logo.src} alt="TheWaleWallet Logo"/>
+                <Image style={{width: "200px"}} src={logo.src} alt="TheWaleWallet Logo"/>
             </div>
             <div className="login_logins">
                 <h3>Sign in : </h3>
