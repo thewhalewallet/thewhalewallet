@@ -1,7 +1,8 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { Session } from 'next-auth';
+import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-export default function Navbar({ session }: { session: any }) {
+export default function Navbar(session: Session) {
     const router = useRouter();
     return (
         <div className="navbar bg-base-100">
@@ -15,8 +16,8 @@ export default function Navbar({ session }: { session: any }) {
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                         <div className="w-max rounded-full">
                             {
-                                session.user.image ? (
-                                    <Image className="object-scale-down" src={session.user.image} alt='' width={512} height={512} />
+                                session.user!.image ? (
+                                    <Image className="object-scale-down" src={session.user!.image} alt='' width={512} height={512} />
                                 ) : ( // just in case
                                     <Image className="object-scale-down" src="/logo.jpeg" alt='' width={512} height={512} />
                                 )
@@ -44,5 +45,6 @@ export default function Navbar({ session }: { session: any }) {
         </div>
     );
 }
+
 
 

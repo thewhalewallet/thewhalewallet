@@ -2,15 +2,27 @@ import DynWallet from "@/components/DynWallet";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import useSWR from 'swr'
-import { Spinner } from "@dynamic-labs/sdk-react/src/lib/components";
+import { Session } from "next-auth";
+import Spinner from "./Spinner";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-export default function DashWallet({id, session}: {id: string, session: any}){
+export default function DashWallet(session: Session) {
 
-    const { data, error, isLoading } = useSWR(`/api/wallet/${id}`, fetcher);
+    const { data, error, isLoading } = useSWR(`/api/wallet/${session.user?.email}`, fetcher);
 
+    if (isLoading) {
+        return <Spinner />;
+    }
+    
     return (
-        <DynWallet />
+        <div>
+            <DynWallet />
+
+
+
+        </div>
+
+
     )
 }
