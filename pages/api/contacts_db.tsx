@@ -55,9 +55,11 @@ async function getUser(user: string): Promise<any> {
     return await contacts.find().catch((err) => {
       throw Error('Failed to find all users');
     });
-  } else if (await doesNotExist(user)) {
+  }
+ else if (await doesNotExist(user)) {
     throw Error('User does not exist');
-  } else {
+  }
+ else {
     return await contacts.find({ user: user }).catch((err) => {
       throw Error('Failed to find user');
     });
@@ -66,12 +68,17 @@ async function getUser(user: string): Promise<any> {
 
 async function addContact(user: string, contact: Contact) {
   const contacts = await initMongo();
-  await contacts.updateOne({ user: user }, { $push: { contacts: contact } }).catch((err) => {
-    throw Error('Failed to add contact');
-  });
+  await contacts
+    .updateOne({ user: user }, { $push: { contacts: contact } })
+    .catch((err) => {
+      throw Error('Failed to add contact');
+    });
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const user = req.body.user as string;
   const contact = req.body.contact as Contact;
 
@@ -94,7 +101,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(405).json({ error: 'Method not allowed' });
         break;
     }
-  } catch (err) {
+  }
+ catch (err) {
     res.status(500).json({ error: (err as Error).message });
   }
 }
