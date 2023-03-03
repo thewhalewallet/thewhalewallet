@@ -1,7 +1,7 @@
 import axios, { Axios, AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 
-import PlaidLink from '../components/PlaidLink';
+import PlaidLink from '../../components/PlaidLink';
 
 interface CreateLinkResponse {
   link_token: string;
