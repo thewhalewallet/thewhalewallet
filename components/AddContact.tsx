@@ -14,6 +14,8 @@ const potentialAddressTrio = {
 
 export default function AddContact() {
     let [addressTrios, setAddressTrios] = React.useState<IAddressTrio[]>([]);
+    let [contactName, setContactName] = React.useState<string>("");
+    let [potentialWallet, setPotentialWallet] = React.useState<string>("");
 
     const addAddressTrio = () => {
         let trio = {walletAddress: "wallet", ensAddress: "ens", lensAddress: "lens"} as IAddressTrio;
@@ -22,13 +24,20 @@ export default function AddContact() {
 
     return (
         <div>
-            <TextField fullWidth placeholder="Name" id="contact_name" />
+            <TextField fullWidth 
+                placeholder="Name" 
+                id="contact_name" 
+                onChange={(e)=>{setContactName(e.target.value)}}
+            />
             <div>
-                <TextField fullWidth placeholder="Wallet adress, ENS or LENS" id="contact_address" />
+                <TextField fullWidth
+                    placeholder="Wallet adress, ENS or LENS" 
+                    id="contact_address" 
+                    onChange={(e)=>{setPotentialWallet(e.target.value)}}
+                />
                 {/* Show address trio created when typing in textfield */}
                 <div style={potentialAddressTrio} onClick={()=>{addAddressTrio()}}>
                     <AddressTrio
-                        key="0xadfalskweo23909fnafn23d" 
                         addressTrio={{
                             walletAddress:"0xadfalskweo23909fnafn23d",
                             ensAddress:"verygoodname.eth",
@@ -37,17 +46,17 @@ export default function AddContact() {
                         }
                     />
                 </div>
+                <div>{potentialWallet}</div>
                 <div>
                     {/* Show the created address trios */}
                     {addressTrios.map((trio: IAddressTrio)=>(
                         <AddressTrio 
                             key={trio.walletAddress}
                             addressTrio={{
-                            walletAddress: trio.walletAddress,
-                            ensAddress: trio.ensAddress,
-                            lensAddress: trio.lensAddress
-                            }
-                            }
+                                walletAddress: trio.walletAddress,
+                                ensAddress: trio.ensAddress,
+                                lensAddress: trio.lensAddress
+                            }}
                         />
                     ))}
                 </div>

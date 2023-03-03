@@ -8,7 +8,7 @@ import { DynamicContextProvider, DynamicWidget} from '@dynamic-labs/sdk-react';
 
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
-
+//
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <DynamicContextProvider
