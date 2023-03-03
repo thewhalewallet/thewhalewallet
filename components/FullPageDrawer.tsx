@@ -1,4 +1,4 @@
-import React, { Component, ReactComponentElement, useEffect } from 'react';
+import React, { Component, ReactComponentElement, ReactElement, ReactNode, useEffect } from 'react';
 import BasicLayout from './BasicLayout';
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -13,28 +13,14 @@ const drawerStyle={
     top: "0",
 }
 
+export interface IFullPageDrawerProps {
+    anchor: "left" | "bottom",
+    open: boolean,
+    pageContent: ReactElement<any>,
+}
 
-export default function FullPageDrawer({anchor, open, close, removeChevron = false, crumbName, navTitle, navActionText, navActionClickHandler, bodyContent } : 
-    { anchor: any, open: boolean, close: () => void, removeChevron: boolean, crumbName: string, navTitle: string, navActionText: string, navActionClickHandler: () => void, bodyContent: React.ReactNode }) {
 
-    const navContent = (
-        <div style={{display: "flex", alignItems: "center"}}>
-            <div style={{display: "flex", alignItems: "center", flexBasis:"0%", flexGrow:1}} onClick={()=>close()}>
-                {!removeChevron ? 
-                    <FontAwesomeIcon icon={faChevronLeft} size="lg"/> :
-                    <></>
-                }
-                <h4>{crumbName}</h4>
-            </div>
-            <h3>{navTitle}</h3>
-            <h4 style={{flexBasis:"0%", flexGrow:1, textAlign: "right"}}
-                onClick={()=>navActionClickHandler()}
-            >
-                {navActionText}
-            </h4>
-        </div>
-    );
-
+export default function FullPageDrawer({ fullPageDrawerProps } : { fullPageDrawerProps: IFullPageDrawerProps}) {
     return (
         <Drawer
             sx={{
@@ -48,10 +34,10 @@ export default function FullPageDrawer({anchor, open, close, removeChevron = fal
                 },
             }}
             variant="persistent"
-            anchor={anchor}
-            open={open}
+            anchor={fullPageDrawerProps.anchor}
+            open={fullPageDrawerProps.open}
         >
-            <BasicLayout navContent={navContent} bodyContent={bodyContent}/>
+            {fullPageDrawerProps.pageContent}
         </Drawer>
     );
 }

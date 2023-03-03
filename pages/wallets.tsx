@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import BasicLayout from '@/components/BasicLayout';
+import BasicLayout, { IBasicLayoutProps } from '@/components/BasicLayout';
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 
-import FullPageDrawer from '@/components/FullPageDrawer';
+import FullPageDrawer, { IFullPageDrawerProps } from '@/components/FullPageDrawer';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -21,6 +21,7 @@ import { useAccount, useConnect, useEnsName, useBalance, useDisconnect } from 'w
 import IAddressTrio from '@/components/types/AddressTrio';
 import IWallet from '@/components/types/Wallet';
 import { DynamicContextProvider, DynamicWidget } from '@dynamic-labs/sdk-react';
+import { ITopNavProps } from '@/components/TopNav';
 
 
 
@@ -100,16 +101,23 @@ function Wallets() {
         // await disconnect();
     }
 
-    const navContent = (
-        <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-            <h2>Wallets</h2>
-            <FontAwesomeIcon icon={faAddressBook} size="lg" onClick={() => showContactList()}/>
-        </div>
-    );
+    //    crumbName: string,
+    // navTitle: string,
+    // navActionElement: string | FontAwesomeIconProps,
+    // navActionClickHandler: () => void
+
+
 
     const [cryptoDisplayOption, setCryptoDisplayOption] = React.useState("Wallets");
     const totalBalance = "0.00"; // TODO: Get all wallets and bank accounts and add them up
 
+    const topNavProps = {
+        crumbName: "Wallets",
+        crumbNameClickHandler: closeContactList,
+        navTitle: "",
+        navActionElement: {icon:faAddressBook, size:"lg"} as FontAwesomeIconProps,
+        navActionClickHandler: showContactList,
+    } as ITopNavProps;
 
     const bodyContent = (
         <div>
@@ -146,24 +154,26 @@ function Wallets() {
 
             </div>
         </div>
-        
     );
+
+    const walletsBasicLayoutProps = {
+        topNavProps: topNavProps,
+        bodyContent: bodyContent,
+    } as IBasicLayoutProps;
+
+    const contactListDrawerProps = {
+        anchor: "left",
+        open: contactListOpen,
+        pageContent: (<ContactList close={closeContactList} contacts={hardcodedContacts}/>),
+    } as IFullPageDrawerProps;
 
     return (
         <div>
-            <BasicLayout navContent={navContent} bodyContent={bodyContent} />
+            <BasicLayout basicLayoutProps={walletsBasicLayoutProps} />
             <FullPageDrawer
-                anchor="left"
-                close={closeContactList}
-                removeChevron={false}
-                crumbName="Wallets"
-                navTitle="Contacts"
-                navActionText="+"
-                navActionClickHandler={createContact}
-                bodyContent={(<ContactList contacts={hardcodedContacts}/>)}
-                open={contactListOpen}
+                fullPageDrawerProps={contactListDrawerProps}
             />
-            <FullPageDrawer
+            {/* <FullPageDrawer
                 anchor="bottom"
                 close={closeCreateContact}
                 removeChevron={true}
@@ -173,7 +183,7 @@ function Wallets() {
                 navActionClickHandler={doneCreatingContact}
                 bodyContent={<><AddContact/></>}
                 open={createContactOpen}
-            />
+            /> */}
         </div>
     );
 }

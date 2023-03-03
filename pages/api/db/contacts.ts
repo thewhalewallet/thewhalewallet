@@ -3,11 +3,15 @@ import mongoose, { Schema, Model } from 'mongoose';
 
 const uri = `mongodb+srv://admin:${process.env.DB_KEY}@whalewallet.tj5l6ae.mongodb.net/whalewallet?retryWrites=true&w=majority`;
 
+interface AddressTrio {
+  walletAddress: string;
+  ensAddress: string;
+  lensAddress: string;
+}
+
 interface Contact {
   name: String;
-  address: String;
-  ens: String;
-  lens: String;
+  wallets: AddressTrio[];
   isFavorite: Boolean;
 }
 
@@ -21,9 +25,16 @@ const ContactListSchema = new Schema<Contacts>({
   contacts: [
     {
       name: { type: String, required: true },
-      address: { type: String, required: true },
-      ens: { type: String, required: false },
-      lens: { type: String, required: false },
+      wallets: [
+        {
+          walletAddress: { type: String, required: true },
+          ensAddress: { type: String, required: false, default: '' },
+          lensAddress: { type: String, required: false, default: '' },
+        },
+      ],
+      // address: { type: String, required: true },
+      // ens: { type: String, required: false },
+      // lens: { type: String, required: false },
       isFavorite: { type: Boolean, required: false, default: false },
     },
   ],

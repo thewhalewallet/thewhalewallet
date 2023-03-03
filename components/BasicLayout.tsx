@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TopNav from './TopNav';
+import TopNav, { ITopNavProps } from './TopNav';
 
 const basicLayoutStyle={
     width: "100%",
@@ -13,12 +13,17 @@ const bodyStyle = {
     height: "100%",
 } as any;
 
-export default function basicLayout({ navContent, bodyContent } : { navContent: React.ReactNode, bodyContent: React.ReactNode }) {
+export interface IBasicLayoutProps {
+    topNavProps: ITopNavProps,
+    bodyContent: React.ReactNode
+}
+
+export default function basicLayout({ basicLayoutProps } : { basicLayoutProps: IBasicLayoutProps }) {
     return (
         <div style={basicLayoutStyle}>
-            <TopNav navContent={navContent} />
+            <TopNav topNavProps={basicLayoutProps.topNavProps} />
             <div style={bodyStyle}>
-                { bodyContent }
+                { basicLayoutProps.bodyContent }
             </div>
         </div>
     );
