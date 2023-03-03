@@ -16,13 +16,11 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 import { ethers } from 'ethers';
 
-import { connect } from '@wagmi/core';
-import { disconnect } from '@wagmi/core';
-
 import { InjectedConnector } from '@wagmi/core/connectors/injected';
 import { useAccount, useConnect, useEnsName, useBalance, useDisconnect } from 'wagmi';
 import IAddressTrio from '@/components/types/AddressTrio';
 import IWallet from '@/components/types/Wallet';
+import { DynamicContextProvider, DynamicWidget } from '@dynamic-labs/sdk-react';
 
 
 
@@ -124,7 +122,6 @@ function Wallets() {
                     </div>
                 </div>
             </div>
-            <Button onClick={()=> connectNewWallet()}>Connect Wallet</Button>
             <div>{connectedAddress}</div>
             <div>{connectedBalance}</div>
             {/* Crypto wallets */}
@@ -135,11 +132,17 @@ function Wallets() {
                         <Button>Wallets</Button>
                         <Button>Cryptos</Button>
                     </ButtonGroup>
+                    <DynamicContextProvider
+                        settings={{
+                        appLogoUrl:
+                            'public/theWaleWalletLogo.jpeg',
+                        appName: 'The Whale Wallet',
+                        environmentId: '18fa6c3f-9025-4c9b-8f5b-02eff904aa72'
+                        }}
+                    >
+                        <DynamicWidget/>
+                    </DynamicContextProvider>
                 </div>
-                {/* <div>
-                    {wallets.map((wallet) => {
-                        return (
-                             */}
 
             </div>
         </div>

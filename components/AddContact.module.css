@@ -1,0 +1,15 @@
+.addContactBody > *{
+    margin: 20px 0px;
+}
+
+.addContactWallet > *{
+    margin: 20px 0px;
+}
+
+.addedContacts > *{
+    margin: 20px 0px;
+}
+
+.contactWalletAdder{
+    height: 140px;
+}

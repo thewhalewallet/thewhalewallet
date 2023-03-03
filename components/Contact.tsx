@@ -9,15 +9,15 @@ const contactBox = {
     borderRadius: "4px",
     width: "100%",
     padding: "4px",
-}
+} as any;
 
 const contactBoxTitle = {
     width: "100%",
-}
+} as any;
 
 const contactBoxContent = {
     width: "100%",
-}
+} as any;
 
 function ContactBox({title, content}:{title: string, content: string}){
     return (

@@ -6,12 +6,12 @@ const basicLayoutStyle={
     height: "100%",
     padding: "20px",
     backgroundColor: "white",
-}
+} as any;
 
 const bodyStyle = {
     width: "100%",
     height: "100%",
-}
+} as any;
 
 export default function basicLayout({ navContent, bodyContent } : { navContent: React.ReactNode, bodyContent: React.ReactNode }) {
     return (

@@ -11,12 +11,12 @@ const trioBoxStyle = {
     borderRadius: "4px",
     width: "100%",
    
-}
+} as any;
 
 const addressThing = {
     width: "200px",
     margin: "4px",
-}
+} as any;
 
 function AddressChip({label} : {label: string}) {
     return (
@@ -27,9 +27,9 @@ function AddressChip({label} : {label: string}) {
 export default function AddressTrio({addressTrio}: {addressTrio: IAddressTrio}) {
     return (
         <div style={trioBoxStyle}>
-            <AddressChip label={"Wallet Address: " + addressTrio.walletAddress} />
-            <AddressChip label={"ENS Address: " + addressTrio.ensAddress} />
-            <AddressChip label={"LENS Address: " + addressTrio.lensAddress} />
+            <AddressChip label={"Wallet: " + addressTrio.walletAddress} />
+            <AddressChip label={"ENS: " + addressTrio.ensAddress} />
+            <AddressChip label={"LENS: " + addressTrio.lensAddress} />
             {/* <Button onClick={() => {openSendFundModal}}>Send funds</Button> */}
         </div>
     );
