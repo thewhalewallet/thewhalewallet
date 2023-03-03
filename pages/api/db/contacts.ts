@@ -22,12 +22,18 @@ const ContactListSchema = new Schema<Contacts>({
     {
       name: { type: String, required: true },
       address: { type: String, required: true },
-      ens: { type: String, required: false },
-      lens: { type: String, required: false },
+      ens: { type: String, required: false, default: ''},
+      lens: { type: String, required: false, default: ''},
       isFavorite: { type: Boolean, required: false, default: false },
     },
   ],
 });
+
+function validateContact(contact: Contact) {
+  if (contact.name === undefined || contact.name === '') {
+    throw Error('Invalid contact object');
+  }
+}
 
 async function initMongo(): Promise<Model<Contacts>> {
   const client = await mongoose.connect(uri).catch((err) => {
@@ -90,6 +96,7 @@ export default async function handler(
         break;
 
       case 'POST':
+        validateContact(contact);
         if (await doesNotExist(user)) {
           await createUser(user);
         }

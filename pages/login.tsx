@@ -1,38 +1,23 @@
-import React, { Component } from 'react';
-import Image from 'next/image';
-import logo from '/public/theWaleWalletLogo.jpeg';
-import BasicLayout from '@/components/BasicLayout';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
-function Login() {
-
-    const navContent = (<></>);
-    const bodyContent = (
-        <>
-            <div className="login_title-logo">
-                <h1>The Whale Wallet</h1>
-                <Image style={{width: "200px"}} src={logo.src} alt="TheWaleWallet Logo"/>
-            </div>
-            <div className="login_logins">
-                <h3>Sign in : </h3>
-                {/* <GoogleOAuthProvider clientId=''>
-                    <GoogleLogin 
-                        onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
-                        }}
-                        onError={() => {
-                            console.log('Login Failed');
-                        }}
-                    />
-                </GoogleOAuthProvider> */}
-                {/* <AppleLogin clientId='' redirectURI='' /> */}
-            </div>
-        </>
-    );
-
+export default function Component() {
+  const { data: session } = useSession();
+  if (session) {
     return (
-        <BasicLayout navContent={navContent} bodyContent={bodyContent} />
+      <>
+        Signed in as {session.user!.email} <br />
+        <button className='btn' onClick={() => signOut()}>
+          Sign out
+        </button>
+      </>
     );
+  }
+  return (
+    <>
+      Not signed in <br />
+      <button className='btn' onClick={() => signIn()}>
+        Sign in
+      </button>
+    </>
+  );
 }
-
-export default Login;
-

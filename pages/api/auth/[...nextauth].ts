@@ -7,10 +7,10 @@ import EmailProvider from 'next-auth/providers/email';
 export default NextAuth({
   providers: [
     // OAuth authentication providers...
-    AppleProvider({
-      clientId: process.env.APPLE_ID as string,
-      clientSecret: process.env.APPLE_SECRET as string,
-    }),
+    // AppleProvider({
+    //   clientId: process.env.APPLE_ID as string,
+    //   clientSecret: process.env.APPLE_SECRET as string,
+    // }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,

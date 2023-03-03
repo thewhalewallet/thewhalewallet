@@ -1,8 +1,11 @@
+import DynWallet from "@/components/DynWallet";
 export default function Home() {
+
   return (
     <div>
-      <h1>index</h1>
-      <button>test</button>
+      <h1>Home</h1>
+      {/* <DynWallet /> */}
     </div>
   );
+
 }
