@@ -2,15 +2,28 @@ import PlaidInit from './PlaidInit';
 import IUser from '../types/IUser';
 
 export default function PlaidDisplay({user}: {user: IUser}) {
-    
+
+    if (user._id !== undefined) {
+        return (
+            <div>
+                <PlaidInit user_id={user._id }/>
+                <p>
+                    {user._id} 
+                </p>
+                <p>
+                    {user.email}
+                </p>
+                <p>
+                    {user.plaid_access_token}
+                </p>
+            </div>
+        );
+    }
     return (
         <div>
-            <PlaidInit userId={user._id}/>
-            <p>
-                {user._id}
-                {user.email}
-                {user.plaid_access_token}
-            </p>
+            <p>loading</p>
         </div>
     );
+
+
 }

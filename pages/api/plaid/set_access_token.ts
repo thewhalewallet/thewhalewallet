@@ -66,11 +66,6 @@ export default async function handler(req: SetTokenProps, res: NextApiResponse) 
       });
 
       await client
-      .transactionsSync({
-        access_token: response.data.access_token,
-      })
-
-      await client
         .accountsBalanceGet({
           access_token: response.data.access_token,
         })
