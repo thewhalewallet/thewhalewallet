@@ -5,6 +5,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Drawer, { DrawerProps } from '@mui/material/Drawer';
+import IFullPageDrawerProps from './types/props/IFullPageDrawerProps';
 
 const drawerStyle={
     width: "100%",
@@ -12,13 +13,6 @@ const drawerStyle={
     position: "absolute",
     top: "0",
 }
-
-export interface IFullPageDrawerProps {
-    anchor: "left" | "bottom",
-    open: boolean,
-    pageContent: ReactElement<any>,
-}
-
 
 export default function FullPageDrawer({ fullPageDrawerProps } : { fullPageDrawerProps: IFullPageDrawerProps}) {
     return (

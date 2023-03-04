@@ -1,17 +1,18 @@
 import { Box, Button, Divider, List, ListItem, ListItemButton, ListItemText, Modal } from '@mui/material';
-import React, { Component } from 'react';
+import React from 'react';
 import AddressTrio from './AddressTrio';
-import BasicLayout, { IBasicLayoutProps } from './BasicLayout';
-import FullPageDrawer, { IFullPageDrawerProps } from './FullPageDrawer';
-import SendFundsModal from './SendFundsModal';
+import BasicLayout from './BasicLayout';
+import FullPageDrawer from './FullPageDrawer';
 import IAddressTrio from './types/AddressTrio';
-import IContact from './types/Contact';
+import IWrappedContact from './types/IWrappedContact';
+import IBasicLayoutProps from './types/props/IBasicLayoutProps';
+import IFullPageDrawerProps from './types/props/IFullPageDrawerProps';
 
 import { addContact } from './utils/contact.service';
+import { SendFundModalContext } from './WalletsDashboard';
 
-export default function Contact({close, contact}: {close: () => void, contact: IContact}) {
+export default function Contact({close, contact}: {close: () => void, contact: IWrappedContact}) {
     let [editContactDrawerOpen, setEditContactDrawerOpen] = React.useState(false);
-    let [sendFundsModalOpen, setSendFundsModalOpen] = React.useState(false);
 
     const openEditContactDrawer = () => {
         setEditContactDrawerOpen(true);
@@ -19,14 +20,6 @@ export default function Contact({close, contact}: {close: () => void, contact: I
 
     const closeEditContactDrawer = () => {
         setEditContactDrawerOpen(false);
-    }
-
-    const openSendFundModal = () => {
-        setSendFundsModalOpen(true);
-    }
-
-    const closeSendFundsModal = () => {
-        setSendFundsModalOpen(false);
     }
 
     const saveLensContact = () => {
@@ -40,7 +33,7 @@ export default function Contact({close, contact}: {close: () => void, contact: I
     } as IAddressTrio;
     
     const contactBasicLayoutProps = {
-        topNavProps: {
+        navBarProps: {
             crumbName: "Contacts",
             crumbNameClickHandler: close,
             navTitle: "",
@@ -57,7 +50,7 @@ export default function Contact({close, contact}: {close: () => void, contact: I
                 <AddressTrio addressTrio={contactAddressTrio} />
 
                 {/* If lens contact, add button to add to database */}
-                {contact.fromLens ? 
+                {contact.isFromLens ? 
                     <Button style={{width: "100%", backgroundColor:"#ABFE2C"}}
                         onClick={saveLensContact}
                     >
@@ -66,11 +59,15 @@ export default function Contact({close, contact}: {close: () => void, contact: I
                     :
                     <></>
                 }
-
-
-
-                <Button onClick={openSendFundModal}>Open Modal</Button>
-                <SendFundsModal opened={sendFundsModalOpen} handleClose={closeSendFundsModal} />
+                <SendFundModalContext.Consumer>
+                    {value => 
+                        <Button onClick={value}
+                            style={{width: "100%"}}
+                        >
+                            Send Funds To {contact.name}
+                        </Button>
+                    }
+                </SendFundModalContext.Consumer>
             </>
         ),
     } as IBasicLayoutProps;

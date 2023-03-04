@@ -3,12 +3,22 @@ import PlaidDisplay from '@/components/plaid/PlaidDisplay';
 import IUser from '@/components/types/IUser';
 import WalletDisplay from '@/components/WalletDisplay';
 import { DynamicContextProvider, useDynamicContext } from '@dynamic-labs/sdk-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
+import React from 'react';
+import WalletsDashboard from '@/components/WalletsDashboard';
+
+export const UserContext = React.createContext({} as IUser);
 
 export default function Dashboard() {
-
     const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
+
+    useEffect(() => {
+        //Fetch user from database
+        // let user = await getUser();
+        // setCurrentUser(user);
+    }, []);
+
     
     return (
         <div>
@@ -22,15 +32,10 @@ export default function Dashboard() {
                 shadowDOMEnabled: true,
             }}
         >
-            <Navbar />
-            <div className="hero min-h-screen bg-base-100">
-                <div className="hero-content text-center">
-
-                    {/* <WalletDisplay /> */}
-                    <PlaidDisplay />
-
-                </div>
-            </div>
+            <UserContext.Provider value={currentUser}>
+                <WalletsDashboard />
+            </UserContext.Provider>
+            {/* <PlaidDisplay /> */}
             <UserHandler setCurrentUser={setCurrentUser} />
         </DynamicContextProvider>
         </div>

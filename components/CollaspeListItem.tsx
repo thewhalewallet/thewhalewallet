@@ -28,7 +28,6 @@ export default function CollaspeListItem({ detailedWallet }: { detailedWallet: I
     }
 
     const convertCoinWithDecimal = (coin: number, decimal: number) => {
-        console.log(coin, decimal, coin/(10^decimal));
         return (coin/(10**decimal));
     }
 

@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { Box, Chip, Divider, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import FullPageDrawer, { IFullPageDrawerProps } from './FullPageDrawer';
+import FullPageDrawer from './FullPageDrawer';
 import Contact from './Contact';
-import BasicLayout, { IBasicLayoutProps } from './BasicLayout';
-import { ITopNavProps } from './TopNav';
-import IContact from './types/Contact';
+import BasicLayout from './BasicLayout';
 import AddContact from './AddContact';
+import IWrappedContact from './types/IWrappedContact';
+import INavBarProps from './types/props/INavBarProps';
+import IBasicLayoutProps from './types/props/IBasicLayoutProps';
+import IFullPageDrawerProps from './types/props/IFullPageDrawerProps';
 
 
-export default function ContactList({ close, contacts } : { close: () => void, contacts: IContact[] }) {
+export default function ContactList({ close, wrappedContacts } : { close: () => void, wrappedContacts: IWrappedContact[] }) {
     const [contactInfoDrawerOpen, setContactInfoDrawerOpen] = React.useState(false);
     const [addContactDrawerOpen, setAddContactDrawerOpen] = React.useState(false);
-    const [selectedContact, setSelectedContact] = React.useState<IContact|null>(null);
+    const [selectedContact, setSelectedContact] = React.useState<IWrappedContact|null>(null);
 
-    const openContactInfoDrawer = (contact: IContact) => {
+    const openContactInfoDrawer = (contact: IWrappedContact) => {
         setSelectedContact(contact);
         setContactInfoDrawerOpen(true);
     }
@@ -32,13 +34,13 @@ export default function ContactList({ close, contacts } : { close: () => void, c
     }
 
 
-    const contactListTopNavProps = {
+    const contactListNavBarProps = {
         crumbName: "Wallets",
         crumbNameClickHandler: close,
         navTitle: "Contacts",
         navActionElement: "Add",
         navActionClickHandler: openAddContactDrawer,
-    } as ITopNavProps;
+    } as INavBarProps;
 
     const addContactDrawerProps = {
         anchor: "bottom",
@@ -55,12 +57,12 @@ export default function ContactList({ close, contacts } : { close: () => void, c
     const contactListBodyContent = (
         <>
             <List>
-                {contacts.map((contact: IContact) => (
+                {wrappedContacts.map((contact: IWrappedContact) => (
                     <Box key={contact.address}>
                         <ListItem onClick={() => openContactInfoDrawer(contact)}>
                             <ListItemButton >
                                 <ListItemText primary={contact.name} />
-                                {contact.fromLens ? <Chip style={{backgroundColor:"#ABFE2C"}} icon={<span>🌿</span>} label="From Lens" /> : <></>}
+                                {contact.isFromLens ? <Chip style={{backgroundColor:"#ABFE2C"}} icon={<span>🌿</span>} label="From Lens" /> : <></>}
                             </ListItemButton>
                         </ListItem>
                         <Divider />
@@ -71,7 +73,7 @@ export default function ContactList({ close, contacts } : { close: () => void, c
     );
 
     const contactListBasicLayoutProps = {
-        topNavProps: contactListTopNavProps,
+        navBarProps: contactListNavBarProps,
         bodyContent: contactListBodyContent,
     } as IBasicLayoutProps;
 
