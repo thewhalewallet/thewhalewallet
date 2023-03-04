@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         client_user_id: req.body.user_id as string,
       },
       client_name: 'WhaleWallet',
-      products: [Products.Auth],
+      products: [Products.Auth, Products.Balance],
       country_codes: [CountryCode.Us],
       language: 'en',
       webhook: process.env.NEXT_PUBLIC_PLAID_HOOK,

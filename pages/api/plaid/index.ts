@@ -68,8 +68,8 @@ interface PlaidHook extends NextApiRequest {
   };
 }
 
-export default async function handler(req: PlaidHook, res: NextApiResponse) {
 
+export default async function handler(req: PlaidHook, res: NextApiResponse) {
   if (req.body.webhook_code === 'HISTORICAL_UPDATE') {
     const access_token = await getAccessToken(req.body.item_id);
     const client = new PlaidApi(configuration);
@@ -79,18 +79,7 @@ export default async function handler(req: PlaidHook, res: NextApiResponse) {
         access_token: access_token,
       })
       .then((response) => {
-
-        let txs = [] as IPlaidTx[];
-        response.data.added.forEach((tx: any) => {
-            txs.push({
-                account_id: tx.account_id,
-                amount: tx.amount,
-                date: tx.date,
-                merchant_name: tx.merchant_name,
-                } as IPlaidTx);
-        });
         
-        setUserTx(access_token, txs);
       });
 
     res.status(200);

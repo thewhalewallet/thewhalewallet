@@ -1,62 +1,15 @@
 import PlaidInit from './PlaidInit';
 import IUser from '../types/IUser';
 
-interface IDBUser extends IUser {
-    _id: string;
-}
-
-export default function PlaidDisplay() {
-    const { user: dynUser } = useDynamicContext();
-    const [user, setUser] = useState<IDBUser | null>();
-
-    useEffect(() => {
-        const getUser = async () => {
-
-            await axios.post(`/api/db/lookup/user`, {
-                user: {
-                    email: dynUser?.email,
-                }
-            })
-            .then(async (res: AxiosResponse<string>) => {
-                    const user: IDBUser | null = await axios.get(`/api/db/users/${res.data}`)
-                    .then((res: AxiosResponse<IDBUser>) => {
-                        return res.data;
-                    })
-                    .catch((error) => {
-                        console.log(`failed to get user`);
-                        return null;
-                    })
-                    setUser(user);
-            })
-            .catch(async (error) => {
-               // user does not exist, so create one
-               const user: IDBUser | null = await axios.post(`/api/db/users`, {
-                    user: {
-                        email: dynUser?.email,
-                    }
-                })
-                .then((res: AxiosResponse<IDBUser>) => {
-                    return res.data;
-                })
-                .catch((error) => {
-                    console.log(`failed to create new user`);
-                    return null;
-                })
-                setUser(user);
-                });
-        };
-        if (dynUser) {
-            getUser();
-        }
-    }, [dynUser]);
-
+export default function PlaidDisplay({user}: {user: IUser}) {
+    
     return (
         <div>
-            <PlaidInit />
+            <PlaidInit userId={user._id}/>
             <p>
-                {user?._id}
-                {user?.email}
-                {user?.plaid_access_token}
+                {user._id}
+                {user.email}
+                {user.plaid_access_token}
             </p>
         </div>
     );
