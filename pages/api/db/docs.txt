@@ -1,0 +1,129 @@
+----------------------------------------------------------------------------------------------------------------------------
+  ______   _______   ______ 
+ /      \ /       \ /      |
+/$$$$$$  |$$$$$$$  |$$$$$$/ 
+$$ |__$$ |$$ |__$$ |  $$ |  
+$$    $$ |$$    $$/   $$ |  
+$$$$$$$$ |$$$$$$$/    $$ |  
+$$ |  $$ |$$ |       _$$ |_ 
+$$ |  $$ |$$ |      / $$   |
+$$/   $$/ $$/       $$$$$$/ 
+----------------------------------------------------------------------------------------------------------------------------
+
+/api/users/
+GET -> get user by id
+    url {user_id objectId} 
+
+POST -> create user
+    body: {
+        user: IUser
+    }
+
+PUT -> update user
+    body: {
+        user: IUser
+    }
+
+DELETE -> delete user
+    url {user_id objectId}
+
+
+
+/api/wallets
+GET -> get wallet by id
+    url {wallet_id objectId}
+
+POST -> create wallet
+    body: {
+        wallet: IWallet
+    }
+
+PUT -> update wallet
+    body: {
+        wallet: IWallet
+    }
+
+DELETE -> delete wallet
+    url {wallet_id objectId}
+
+
+/api/contacts
+GET -> get contact by id
+    url {contact_id objectId}
+
+POST -> create contact
+    body: {
+        contact: IContact
+    }
+
+PUT -> update contact
+    body: {
+        contact: IContact
+    }
+
+DELETE -> delete contact
+    url {contact_id objectId}
+
+
+/api/lookup/{choice} 
+POST -> {choice} can be user, wallet, or contact
+user -> 
+    body: {
+        user: IUser
+    }
+
+wallet ->
+    body: {
+        wallet: IWallet
+    }
+
+contact ->
+    body: {
+        contact: IContact
+    }
+
+----------------------------------------------------------------------------------------------------------------------------
+  ______   _______   ______
+ ______  __    __  ________  ________  _______   ________   ______    ______   ________ 
+/      |/  \  /  |/        |/        |/       \ /        | /      \  /      \ /        |
+$$$$$$/ $$  \ $$ |$$$$$$$$/ $$$$$$$$/ $$$$$$$  |$$$$$$$$/ /$$$$$$  |/$$$$$$  |$$$$$$$$/ 
+  $$ |  $$$  \$$ |   $$ |   $$ |__    $$ |__$$ |$$ |__    $$ |__$$ |$$ |  $$/ $$ |__    
+  $$ |  $$$$  $$ |   $$ |   $$    |   $$    $$< $$    |   $$    $$ |$$ |      $$    |   
+  $$ |  $$ $$ $$ |   $$ |   $$$$$/    $$$$$$$  |$$$$$/    $$$$$$$$ |$$ |   __ $$$$$/    
+ _$$ |_ $$ |$$$$ |   $$ |   $$ |_____ $$ |  $$ |$$ |      $$ |  $$ |$$ \__/  |$$ |_____ 
+/ $$   |$$ | $$$ |   $$ |   $$       |$$ |  $$ |$$ |      $$ |  $$ |$$    $$/ $$       |
+$$$$$$/ $$/   $$/    $$/    $$$$$$$$/ $$/   $$/ $$/       $$/   $$/  $$$$$$/  $$$$$$$$/
+----------------------------------------------------------------------------------------------------------------------------
+
+IUser {
+    email: string;
+    name: string;
+    image: string;
+    plaid_access_token: string;
+    plaid_item_id: string;
+    wallets: IWallet[];
+    contacts: IContact[];
+}
+IWallet {
+    name: string;
+    address: string;
+    isFavorite: boolean;
+    ens: string;
+    lens: string;
+}
+IContact {
+    name: string;
+    address: string;
+    ens: string;
+    lens: string;
+    isFavorite: boolean;
+}
+IUser {
+    email: string;
+    name: string;
+    image: string;
+    plaid_access_token: string;
+    plaid_item_id: string;
+    wallets: IWallet[];
+    contacts: IContact[];
+  }
