@@ -14,7 +14,7 @@ const bodyStyle = {
 } as any;
 
 export interface IBasicLayoutProps {
-    topNavProps: ITopNavProps,
+    topNavProps: any,
     bodyContent: React.ReactNode
 }
 
