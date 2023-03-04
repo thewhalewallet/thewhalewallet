@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import BasicLayout, { IBasicLayoutProps } from '@/components/BasicLayout';
 
 import { faAddressBook } from '@fortawesome/free-solid-svg-icons'
@@ -21,6 +21,9 @@ import { getContacts } from '@/components/utils/contact.service';
 import { getFollowingByWalletAddress } from '@/components/utils/wallet.service';
 import { Collapse, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import AddressTrio from '@/components/AddressTrio';
+
+import { getEthAddressBalance } from '@/components/utils/covalent.service';
+import { integer } from 'aws-sdk/clients/cloudfront';
 
 const EthProvider =
     new ethers.providers.JsonRpcProvider('https://mainnet.infura.io/v3/14701777a25c45b0ad74cf9bd1e8b03a');
@@ -85,14 +88,57 @@ const user: IUser = {
     contacts: hardcodedContacts,
 };
 
+interface IDetailedCoinInfo {
+    contractAddress: string;
+    contractDecimal: number;
+    tokenBalance: string;
+    contractTickerSymbol: string;
+    logoUrl: string;
+    quote: number;
+    quoteCurrency: string;
+}
+
+interface IDetailedWallet extends IWallet {
+    detailedCoinInfos: IDetailedCoinInfo[]
+}
+
 function Wallets() {
     const [connectedAddress, setConnectedAddress] = React.useState("");
     const [connectedBalance, setConnectedBalance] = React.useState("");
     const [contacts, setContacts] = React.useState<IContact[]>([]);
-    const [wallets, setWallets] = React.useState<IWallet[]>([]);
+    const [wallets, setWallets] = React.useState<IDetailedWallet[]>([]);
 
     let [contactListOpen, setContactListOpen] = React.useState(false);
     let [createContactOpen, setCreateContactOpen] = React.useState(false);
+
+    useEffect(() => {
+        // Fetch the user
+        //...
+        let usersWallets = user.wallets;
+        // Get the balance of each wallet and add the wallet to the list.
+        let promises = usersWallets.map((wallet) => {
+            return getEthAddressBalance(wallet.addressTrio.address).then((data) => {
+                let walletCoinsInfo = data.data.items.map((item) => {
+                    return {
+                        contractAddress: item.contract_address,
+                        contractDecimal: item.contract_decimals,
+                        tokenBalance: item.balance,
+                        contractTickerSymbol: item.contract_ticker_symbol,
+                        logoUrl: item.logo_url,
+                        quote: item.quote,
+                        quoteCurrency: data.quote_currency,
+                    } as IDetailedCoinInfo;
+                }) as IDetailedCoinInfo[];
+                return {
+                    ...wallet,
+                    detailedCoinInfos: walletCoinsInfo,
+                } as IDetailedWallet;
+            })
+        });
+        Promise.all(promises).then((results) => {
+            setWallets(results);
+        });
+    }, []);
 
     const getFollowingContacts = async () => {
         // Get wallet that have lens accounts associated with them.
@@ -146,6 +192,12 @@ function Wallets() {
         setContactListOpen(false);
     }
 
+    const getBalance = () => {
+        getEthAddressBalance("0xCA30F395F269078149520df119e74eAd0e415c49").then((res) => {
+            console.log(res);
+        });
+    }
+
 
     const connectNewWallet = async () => {
         console.log("connect new wallet");
@@ -195,6 +247,7 @@ function Wallets() {
                     <AddressTrio key={wallet.addressTrio.address} addressTrio={wallet.addressTrio} />
                 )
             })}
+            <Button onClick={getBalance}>Get balance</Button>
 
             {/* <div>
                 <div style={{display: "flex"}}>
