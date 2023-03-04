@@ -10,7 +10,7 @@ $$ |  $$ |$$ |      / $$   |
 $$/   $$/ $$/       $$$$$$/ 
 ----------------------------------------------------------------------------------------------------------------------------
 
-/api/users/
+/api/db/db/users/
 GET -> get user by id
     url {user_id objectId} 
 
@@ -29,7 +29,7 @@ DELETE -> delete user
 
 
 
-/api/wallets
+/api/db/wallets
 GET -> get wallet by id
     url {wallet_id objectId}
 
@@ -47,7 +47,7 @@ DELETE -> delete wallet
     url {wallet_id objectId}
 
 
-/api/contacts
+/api/db/contacts
 GET -> get contact by id
     url {contact_id objectId}
 
@@ -65,7 +65,7 @@ DELETE -> delete contact
     url {contact_id objectId}
 
 
-/api/lookup/{choice} 
+/api/db/lookup/{choice} 
 POST -> {choice} can be user, wallet, or contact
 user -> 
     body: {

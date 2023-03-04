@@ -186,7 +186,6 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const slug = req.query.slug as string[];
-
   try {
     await initMongo();
 
