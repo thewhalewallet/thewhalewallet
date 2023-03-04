@@ -1,0 +1,13 @@
+
+
+.basicLayout{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: white;
+}
+
+.basicLayoutBody{
+    width: 100%;
+    height: 100%;
+}

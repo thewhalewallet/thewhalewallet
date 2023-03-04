@@ -9,17 +9,12 @@ import { isEthWalletAddress, isEthENSAddress, isEthLENSAddress } from '@/compone
 import { getLensProfileByWalletAddress } from '@/components/utils/wallet.service';
 
 import styles from './AddContact.module.css'
-import BasicLayout, { IBasicLayoutProps } from './BasicLayout';
+import BasicLayout from './BasicLayout';
 
 import { addContact } from '@/components/utils/contact.service';
-import IContact from './types/Contact';
-
-const addressTrios: IAddressTrio[] = []
-
-const potentialAddressTrio = {
-    display: "flex",
-    justifyContent: "right",
-} as any;
+import IContact from './types/IContact';
+import IBasicLayoutProps from './types/props/IBasicLayoutProps';
+import INavBarProps from './types/props/INavBarProps';
 
 
 export default function AddContact({ close } : { close: () => void }) {
@@ -78,13 +73,13 @@ export default function AddContact({ close } : { close: () => void }) {
     }
 
     const addContactBasicLayoutProps = {
-        topNavProps: {
+        navBarProps: {
             crumbName: "Cancel",
             crumbNameClickHandler: cancelClicked,
             navTitle: "Add Contact",
             navActionElement: "Save",
             navActionClickHandler: saveClicked,
-        },
+        } as INavBarProps,
         bodyContent: (
             <div className={styles.addContactBody}>
                 <TextField className={styles.textField}
