@@ -24,6 +24,7 @@ import AddressTrio from '@/components/AddressTrio';
 
 import { getEthAddressBalance } from '@/components/utils/covalent.service';
 import { integer } from 'aws-sdk/clients/cloudfront';
+import ListOfDetailedWallets from '@/components/ListOfDetailedWallets';
 
 const EthProvider =
     new ethers.providers.JsonRpcProvider('https://mainnet.infura.io/v3/14701777a25c45b0ad74cf9bd1e8b03a');
@@ -88,18 +89,18 @@ const user: IUser = {
     contacts: hardcodedContacts,
 };
 
-interface IDetailedCoinInfo {
+export interface IDetailedCoinInfo {
     contractAddress: string;
     contractDecimal: number;
-    tokenBalance: string;
+    tokenBalance: number;
     contractTickerSymbol: string;
     logoUrl: string;
     quote: number;
-    quoteCurrency: string;
 }
 
-interface IDetailedWallet extends IWallet {
+export interface IDetailedWallet extends IWallet {
     detailedCoinInfos: IDetailedCoinInfo[]
+    quoteCurrency: string;
 }
 
 function Wallets() {
@@ -126,12 +127,12 @@ function Wallets() {
                         contractTickerSymbol: item.contract_ticker_symbol,
                         logoUrl: item.logo_url,
                         quote: item.quote,
-                        quoteCurrency: data.quote_currency,
                     } as IDetailedCoinInfo;
                 }) as IDetailedCoinInfo[];
                 return {
                     ...wallet,
                     detailedCoinInfos: walletCoinsInfo,
+                    quoteCurrency: data.data.quote_currency,
                 } as IDetailedWallet;
             })
         });
@@ -192,10 +193,12 @@ function Wallets() {
         setContactListOpen(false);
     }
 
-    const getBalance = () => {
-        getEthAddressBalance("0xCA30F395F269078149520df119e74eAd0e415c49").then((res) => {
-            console.log(res);
-        });
+    const getTotalBalanceOfUser = () => {
+        return wallets.reduce((total, wallet) => {
+            return total + wallet.detailedCoinInfos.reduce((total, coinInfo) => {
+                return total + coinInfo.quote;
+            }, 0);
+        }, 0);
     }
 
 
@@ -237,17 +240,17 @@ function Wallets() {
                 <div className="stats shadow">
                     <div className="stat">
                         <div className="stat-title">Total Balance</div>
-                        <div className="stat-value">{totalBalance}</div>
+                        <div className="stat-value">{`${getTotalBalanceOfUser().toFixed(2)} USD`}</div>
                     </div>
                 </div>
             </div>
             {/* Crypto wallets */}
-            {user.wallets.map((wallet) => {
+            <ListOfDetailedWallets detailedWallets={wallets}/>
+            {/* {user.wallets.map((wallet) => {
                 return (
                     <AddressTrio key={wallet.addressTrio.address} addressTrio={wallet.addressTrio} />
                 )
-            })}
-            <Button onClick={getBalance}>Get balance</Button>
+            })} */}
 
             {/* <div>
                 <div style={{display: "flex"}}>
