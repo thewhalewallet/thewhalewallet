@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Box, Chip, Divider, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import FullPageDrawer, { IFullPageDrawerProps } from './FullPageDrawer';
 import Contact from './Contact';
 import BasicLayout, { IBasicLayoutProps } from './BasicLayout';
@@ -8,33 +8,28 @@ import IContact from './types/Contact';
 import AddContact from './AddContact';
 
 
-export default function ContactList({ close, contacts } : { close: () => void, contacts: any }) {
+export default function ContactList({ close, contacts } : { close: () => void, contacts: IContact[] }) {
     const [contactInfoDrawerOpen, setContactInfoDrawerOpen] = React.useState(false);
     const [addContactDrawerOpen, setAddContactDrawerOpen] = React.useState(false);
     const [selectedContact, setSelectedContact] = React.useState<IContact|null>(null);
 
     const openContactInfoDrawer = (contact: IContact) => {
-        console.log("open contact info");
         setSelectedContact(contact);
         setContactInfoDrawerOpen(true);
     }
 
     const closeContactInfoDrawer = () => {
-        console.log("close contact info");
         setSelectedContact(null);
         setContactInfoDrawerOpen(false);
     }
 
     const openAddContactDrawer = () => {
-        console.log("open add contact drawer");
         setAddContactDrawerOpen(true);
     }
 
     const closeAddContactDrawer = () => {
-        console.log("close add contact drawer");
         setAddContactDrawerOpen(false);
     }
-
 
 
     const contactListTopNavProps = {
@@ -60,12 +55,16 @@ export default function ContactList({ close, contacts } : { close: () => void, c
     const contactListBodyContent = (
         <>
             <List>
-                {contacts.map((contact: any) => (
-                    <ListItem key={contact.id} onClick={() => openContactInfoDrawer(contact)}>
-                        <ListItemButton >
-                            <ListItemText primary={contact.name} />
-                        </ListItemButton>
-                    </ListItem>
+                {contacts.map((contact: IContact) => (
+                    <Box key={contact.address}>
+                        <ListItem onClick={() => openContactInfoDrawer(contact)}>
+                            <ListItemButton >
+                                <ListItemText primary={contact.name} />
+                                {contact.fromLens ? <Chip style={{backgroundColor:"#ABFE2C"}} icon={<span>🌿</span>} label="From Lens" /> : <></>}
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider />
+                    </Box>
                 ))}
             </List>
         </>

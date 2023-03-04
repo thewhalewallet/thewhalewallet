@@ -1,5 +1,5 @@
 export default interface IAddressTrio{
-    walletAddress: string, 
-    ensAddress: string, 
-    lensAddress: string
+    address: string, 
+    ens: string, 
+    lens: string
 }

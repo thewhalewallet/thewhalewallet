@@ -11,6 +11,9 @@ import { getLensProfileByWalletAddress } from '@/components/utils/wallet.service
 import styles from './AddContact.module.css'
 import BasicLayout, { IBasicLayoutProps } from './BasicLayout';
 
+import { addContact } from '@/components/utils/contact.service';
+import IContact from './types/Contact';
+
 const addressTrios: IAddressTrio[] = []
 
 const potentialAddressTrio = {
@@ -20,39 +23,54 @@ const potentialAddressTrio = {
 
 
 export default function AddContact({ close } : { close: () => void }) {
-    let [addressTrios, setAddressTrios] = React.useState<IAddressTrio[]>([]);
-    let [contactName, setContactName] = React.useState<string>("");
-    let [potentialWallet, setPotentialWallet] = React.useState<string>("");
+    let [inputContactName, setInputContactName] = React.useState<string>("");
+    let [inputAddress, setInputAddress] = React.useState<string>("");
     let [potentialAddressTrio, setPotentialAddressTrio] = React.useState<IAddressTrio | null>(null);
 
-    const cancelClicked = () =>{
-        setContactName("");
-        setAddressTrios([]);
+    const reset = () => {
+        setInputContactName("");
+        setInputAddress("");
         setPotentialAddressTrio(null);
+    }
+
+    const cancelClicked = () =>{
+        reset();
         close();
     }
 
     const saveClicked = () => {
-        console.log("Save clicked");
+        if (potentialAddressTrio != null) {
+            let contact = {
+                name: inputContactName,
+                address: potentialAddressTrio.address,
+                ens: potentialAddressTrio.ens,
+                lens: potentialAddressTrio.lens,
+                isFavorite: false,
+            } as IContact;
+
+            addContact({ user: "jonaksdbsad", contact: contact});
+        }
+        reset();
+        close();
     }
 
-    const potentialAddressTrioClicked = () => {
-        setAddressTrios([...addressTrios, potentialAddressTrio as IAddressTrio])
-        setPotentialAddressTrio(null);
+    const inputAddressChanged =  (val: string) => {
+        setInputAddress(val);
+        potentialAddressChanged(val);
     }
 
-    const potentialAddressChanged = async (potentialAddress: string) => {
-        if (isEthWalletAddress(potentialAddress)) {
+    const potentialAddressChanged = (inputAddress: string) => {
+        if (isEthWalletAddress(inputAddress)) {
             // look for LENS from wallet address
-            console.log("Wallet address");
-            let walletAddress = potentialAddress;
+            let walletAddress = inputAddress;
             let ensAddress = "";
-            let lensProfile = await getLensProfileByWalletAddress(potentialAddress);
-            let lensAddress = lensProfile?.handle || "";
-            setPotentialAddressTrio({walletAddress, ensAddress, lensAddress} as IAddressTrio);
-        } else if (isEthENSAddress(potentialAddress)) {
+            getLensProfileByWalletAddress(walletAddress).then((lensProfile) => {
+                let lensAddress = lensProfile?.handle || "";
+                setPotentialAddressTrio({address: walletAddress, ens: ensAddress, lens: lensAddress} as IAddressTrio);
+            }).catch((err) => {console.log("Error fetching LENS profile: " + err)});
+        } else if (isEthENSAddress(inputAddress)) {
             console.log("ENS address");
-        } else if (isEthLENSAddress(potentialAddress)) {
+        } else if (isEthLENSAddress(inputAddress)) {
             console.log("LENS address");
         } else {
             setPotentialAddressTrio(null);
@@ -69,47 +87,33 @@ export default function AddContact({ close } : { close: () => void }) {
         },
         bodyContent: (
             <div className={styles.addContactBody}>
-                <div className="text-s">Name</div>
-                <TextField fullWidth 
+                <TextField className={styles.textField}
+                    required
+                    label="Name"
+                    variant="filled"
+                    fullWidth 
                     placeholder="Name" 
-                    id="contact_name" 
+                    value={inputContactName}
                     onChange={(e) => {
-                        setContactName(e.target.value)
+                        setInputContactName(e.target.value)
                     }}
                 />
-                <div className={styles.addContactWallet}>
-                    <div className="text-s">Wallets</div>
-                    <div className={styles.contactWalletAdder}>
-                        <TextField fullWidth
-                            placeholder="Wallet adress, ENS or LENS" 
-                            id="contact_address" 
-                            onChange={(e)=>{potentialAddressChanged(e.target.value)}}
-                        />
-                        {/* Show address trio created when typing in textfield */}
-                        <div onClick={()=>{potentialAddressTrioClicked()}}>
-                            {potentialAddressTrio != null ? 
-                            <div>
-                                <div className="text-xs">Click to add wallet</div>
-                                <AddressTrio addressTrio={potentialAddressTrio}/>
-                            </div>
-                            :
-                            <></>
-                            }
-                        </div>
-                    </div>
-                    <div className={styles.addedContacts}>
-                        {/* Show the created address trios */}
-                        {addressTrios.map((trio: IAddressTrio)=>(
-                            <AddressTrio 
-                                key={trio.walletAddress}
-                                addressTrio={{
-                                    walletAddress: trio.walletAddress,
-                                    ensAddress: trio.ensAddress,
-                                    lensAddress: trio.lensAddress
-                                }}
-                            />
-                        ))}
-                    </div>
+                <TextField className={styles.textField}
+                    required
+                    label="Wallet adress, ENS or LENS"
+                    variant="filled"
+                    fullWidth
+                    placeholder="Wallet adress, ENS or LENS" 
+                    value={inputAddress} 
+                    onChange={(e)=>{inputAddressChanged(e.target.value)}}
+                />
+                {/* Show address trio created when typing in textfield */}
+                <div>
+                    {potentialAddressTrio != null ? 
+                    <AddressTrio addressTrio={potentialAddressTrio}/>
+                    :
+                    <></>
+                    }
                 </div>
             </div>
         ),

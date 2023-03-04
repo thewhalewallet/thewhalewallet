@@ -63,3 +63,80 @@ query Profile($profileId: ProfileId!) {
     }
   }
 `
+
+export const getFollowing = gql`query Following($ethereumAddress: EthereumAddress!){
+    following(request: { 
+                  address: $ethereumAddress,
+                limit: 25
+               }) {
+      items {
+        profile {
+          id
+          name
+          bio
+          followNftAddress
+          metadata
+          isDefault
+          handle
+          picture {
+            ... on NftImage {
+              contractAddress
+              tokenId
+              uri
+              verified
+            }
+            ... on MediaSet {
+              original {
+                url
+                width
+                height
+                mimeType
+              }
+              medium {
+                url
+                width
+                height
+                mimeType
+              }
+              small {
+                url
+                width
+                height
+                mimeType
+              }
+            }
+          }
+          coverPicture {
+            ... on NftImage {
+              contractAddress
+              tokenId
+              uri
+              verified
+            }
+            ... on MediaSet {
+              original {
+                url
+                width
+                height
+                mimeType
+              }
+              small {
+                width
+                url
+                height
+                mimeType
+              }
+              medium {
+                url
+                width
+                height
+                mimeType
+              }
+            }
+          }
+          ownedBy
+
+        }
+      }
+    }
+  }`

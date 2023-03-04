@@ -2,6 +2,9 @@ import IAddressTrio from "./AddressTrio";
 
 export default interface IContact{
     name: string, 
-    wallets: IAddressTrio[],
+    address: string,
+    ens: string, 
+    lens: string,
     isFavorite: boolean,
+    fromLens?: boolean,
 }
