@@ -1,8 +1,8 @@
-import { IDetailedWallet } from '@/pages/wallets';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import React from 'react';
+import IDetailedWallet from './types/IDetailedWallet';
 
 export default function CollaspeListItem({ detailedWallet }: { detailedWallet: IDetailedWallet }) {
     const [open, setOpen] = React.useState(false);
@@ -10,14 +10,6 @@ export default function CollaspeListItem({ detailedWallet }: { detailedWallet: I
     const handleClick = () => {
         setOpen(!open);
     };
-
-    // contractAddress: string;
-    // contractDecimal: number;
-    // tokenBalance: string;
-    // contractTickerSymbol: string;
-    // logoUrl: string;
-    // quote: number;
-    // quoteCurrency: string;
 
     const getWalletTotalBalance = () => {
         let walletTotalQuote = 0;
