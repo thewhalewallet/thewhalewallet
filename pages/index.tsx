@@ -1,8 +1,9 @@
 import Navbar from '@/components/Navbar';
+import WalletDisplay from '@/components/WalletDisplay';
 import { DynamicContextProvider, useDynamicContext } from '@dynamic-labs/sdk-react';
 
 export default function Dashboard() {
-
+    
     return (
         <div>
         <DynamicContextProvider
@@ -18,7 +19,8 @@ export default function Dashboard() {
             <Navbar />
             <div className="hero min-h-screen bg-base-100">
                 <div className="hero-content text-center">
-                    <h1>tealda</h1>
+
+                    <WalletDisplay />
 
                 </div>
             </div>
