@@ -1,5 +1,5 @@
+import React from "react";
 import { useDynamicContext } from "@dynamic-labs/sdk-react";
-
 export default function WalletDisplay() {
     const { connectedWallets: wallets } = useDynamicContext();
 
