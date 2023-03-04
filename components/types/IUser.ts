@@ -7,6 +7,7 @@ export default interface IUser {
     name: string;
     image: string;
     plaid_access_token: string;
+    plaid_item_id: string;
     plaid_account: IPlaidAccount[];
     wallets: IWallet[];
     contacts: IContact[];

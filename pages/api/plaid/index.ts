@@ -47,18 +47,8 @@ interface PlaidHook extends NextApiRequest {
   };
 }
 
-function logHook(req: PlaidHook) {
-  console.log('---------------------------------------');
-  console.log(`webhook_code: ${req.body.webhook_code}`);
-  console.log(`webhook_type: ${req.body.webhook_type}`);
-  console.log(`item_id: ${req.body.item_id}`);
-  console.log(`new_transactions: ${req.body.new_transactions}`);
-  console.log(`webhook_code: ${req.body.webhook_code}`);
-}
 
 export default async function handler(req: PlaidHook, res: NextApiResponse) {
-  // logHook(req);
-
   if (req.body.webhook_code === 'HISTORICAL_UPDATE') {
     const access_token = await getAccessToken(req.body.item_id);
     const client = new PlaidApi(configuration);
@@ -68,28 +58,7 @@ export default async function handler(req: PlaidHook, res: NextApiResponse) {
         access_token: access_token,
       })
       .then((response) => {
-        aws_client.putObject(
-          {
-            Bucket: 'whalewallet',
-            Key: `${response.data.request_id}.json`,
-            Body: JSON.stringify(response.data.added),
-          },
-          (err, data) => {
-            if (err) {
-              console.log(err);
-              res.status(500).json({ error: err });
-            }
-            else {
-              aws_client
-                .getObject({
-                  Bucket: 'whalewallet',
-                  Key: `${req.body.item_id}.json`,
-                })
-                .createReadStream();
-              res.status(200).json({});
-            }
-          }
-        );
+        
       });
 
     res.status(200);
