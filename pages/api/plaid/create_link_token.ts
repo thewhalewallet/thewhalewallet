@@ -15,18 +15,19 @@ const configuration = new Configuration({
       'PLAID-SECRET': process.env.PLAID_SECRET,
     },
   },
+
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const client = new PlaidApi(configuration);
-
-  await client
+  try {
+    const client = new PlaidApi(configuration);
+    await client
     .linkTokenCreate({
       user: {
         client_user_id: req.body.user_id as string,
       },
       client_name: 'WhaleWallet',
-      products: [Products.Auth, Products.Balance],
+      products: [Products.Auth],
       country_codes: [CountryCode.Us],
       language: 'en',
       webhook: process.env.NEXT_PUBLIC_PLAID_HOOK,
@@ -43,4 +44,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(`create link token failed: ${error}`);
       res.status(500).json({ error: error });
     });
+  }
+  catch (e) {
+    console.log('Failed to connect to plaid');
+    res.status(500).json({ error: e });
+  }
 }

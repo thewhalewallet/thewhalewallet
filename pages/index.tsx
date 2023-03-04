@@ -22,6 +22,8 @@ export default function Dashboard() {
                 shadowDOMEnabled: true,
             }}
         >
+            <UserHandler setCurrentUser={setCurrentUser} />
+            
             <Navbar />
             <div className="hero min-h-screen bg-base-100">
                 <div className="hero-content text-center">
@@ -31,7 +33,6 @@ export default function Dashboard() {
 
                 </div>
             </div>
-            <UserHandler setCurrentUser={setCurrentUser} />
         </DynamicContextProvider>
         </div>
     );
