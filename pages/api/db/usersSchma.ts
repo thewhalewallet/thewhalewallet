@@ -1,31 +1,9 @@
 import mongoose, { Schema } from "mongoose";
-
-export interface IContact {
-    name: string;
-    address: string;
-    ens: string;
-    lens: string;
-    isFavorite: boolean;
-}
-
-export interface IWallet {
-    name: string;
-    address: string;
-    isFavorite: boolean;
-    ens: string;
-    lens: string;
-  }
+import IWallet from "../../../components/types/IWallet";
+import IContact from "../../../components/types/IContact";
+import IUser from "../../../components/types/IUser";
   
-export interface IUser {
-    email: string;
-    name: string;
-    image: string;
-    plaid_access_token: string;
-    plaid_item_id: string;
-    wallets: IWallet[];
-    contacts: IContact[];
-  }
-  
+
 const UserSchema = new Schema<IUser>({
     email: { type: String, required: true, unique: true},
     name: { type: String, required: false, default: '' },

@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import mongoose, { Model } from 'mongoose';
-import UserModel, { IUser, IWallet, IContact } from './usersSchma';
+import UserModel from './usersSchma';
 import { ObjectId } from 'mongodb';
+import IWallet from "../../../components/types/IWallet";
+import IContact from "../../../components/types/IContact";
+import IUser from "../../../components/types/IUser";
 
 const uri = `mongodb+srv://admin:${process.env.DB_KEY}@whalewallet.tj5l6ae.mongodb.net/whalewallet?retryWrites=true&w=majority`;
 

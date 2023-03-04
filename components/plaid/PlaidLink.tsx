@@ -25,8 +25,9 @@ const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
         open();
       }}
       disabled={!ready}
+      className="btn btn-primary"
     >
-      Link account
+      Add Account
     </button>
   );
 };

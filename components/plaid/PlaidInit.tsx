@@ -1,13 +1,12 @@
-import axios, { Axios, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
-
-import PlaidLink from '../../components/PlaidLink';
+import PlaidLink from './PlaidLink';
 
 interface CreateLinkResponse {
   link_token: string;
 }
 
-export default function Home() {
+export default function PlaidInit() {
   const [linkToken, setLinkToken] = useState('');
   const generateToken = async () => {
     const res: AxiosResponse<CreateLinkResponse> = await axios.post('/api/plaid/create_link_token');
@@ -19,5 +18,6 @@ export default function Home() {
       console.log(`generateToken() failed: ${error}`);
     });
   }, []);
+  
   return linkToken != null ? <PlaidLink linkToken={linkToken} /> : <></>;
 }

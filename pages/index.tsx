@@ -1,8 +1,14 @@
 import Navbar from '@/components/Navbar';
+import PlaidDisplay from '@/components/plaid/PlaidDisplay';
+import IUser from '@/components/types/IUser';
 import WalletDisplay from '@/components/WalletDisplay';
 import { DynamicContextProvider, useDynamicContext } from '@dynamic-labs/sdk-react';
+import { useState } from 'react';
+import UserHandler from '@/components/utils/UserHandler.service';
 
 export default function Dashboard() {
+
+    const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
     
     return (
         <div>
@@ -20,10 +26,12 @@ export default function Dashboard() {
             <div className="hero min-h-screen bg-base-100">
                 <div className="hero-content text-center">
 
-                    <WalletDisplay />
+                    {/* <WalletDisplay /> */}
+                    <PlaidDisplay />
 
                 </div>
             </div>
+            <UserHandler setCurrentUser={setCurrentUser} />
         </DynamicContextProvider>
         </div>
     );
