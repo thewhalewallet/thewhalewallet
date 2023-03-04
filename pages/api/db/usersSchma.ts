@@ -1,7 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import IWallet from "../../../components/types/IWallet";
-import IContact from "../../../components/types/IContact";
-import IUser from "../../../components/types/IUser";
+import IWallet from "@/components/types/IWallet";
+import IContact from "@/components/types/IContact";
+import IUser from "@/components/types/IUser";
+import IPlaidAccounts from "@/components/types/IPlaidAccount";
   
 
 const UserSchema = new Schema<IUser>({
@@ -9,7 +10,23 @@ const UserSchema = new Schema<IUser>({
     name: { type: String, required: false, default: '' },
     image: { type: String, required: false, default: '' },
     plaid_access_token: { type: String, required: false, default: '' },
-    plaid_item_id: { type: String, required: false, default: '' },
+    plaid_account: [
+        {
+            balances: {
+                available: { type: Number, required: true },
+                current: { type: Number, required: true },
+                iso_currency_code: { type: String, required: true },
+                limit: { type: Number, required: true },
+                unofficial_currency_code: { type: String, required: true },
+            },
+            mask: { type: String, required: true },
+            name: { type: String, required: true },
+            official_name: { type: String, required: true },
+            persistent_account_id: { type: String, required: true },
+            subtype: { type: String, required: true },
+            type: { type: String, required: true },
+        }
+    ],
     wallets: [
       {
         address: { type: String, required: true },
@@ -28,54 +45,6 @@ const UserSchema = new Schema<IUser>({
             isFavorite: { type: Boolean, required: false, default: false },
         }
     ]
-  }, {
-    methods: {
-        async addWallet(wallet: IWallet) {
-            this.wallets.push(wallet);
-            await this.save();
-        },
-        async removeWallet(wallet: IWallet) {
-            const i = this.wallets.findIndex( (w) => w.address === wallet.address);
-            this.wallets.splice(i, 1);
-            await this.save();
-        },
-        async updateWallet(wallet: IWallet) {
-            const i = this.wallets.findIndex( (w) => w.address === wallet.address);
-            this.wallets[i] = wallet;
-            await this.save();
-        },
-        async addContact(contact: IContact) {
-            this.contacts.push(contact);
-            await this.save();
-        },
-        async removeContact(contact: IContact) {
-            const i = this.contacts.findIndex( (c) => c.address === contact.address);
-            this.contacts.splice(i, 1);
-            await this.save();
-        },
-        async updateContact(contact: IContact) {
-            const i = this.contacts.findIndex( (c) => c.address === contact.address);
-            this.contacts[i] = contact;
-            await this.save();
-        },
-        async updatePlaid(access_token: string, item_id: string) {
-            this.plaid_access_token = access_token;
-            this.plaid_item_id = item_id;
-            await this.save();
-        },
-        async updateName(name: string) {
-            this.name = name;
-            await this.save();
-        },
-        async updateImage(image: string) {
-            this.image = image;
-            await this.save();
-        },
-        async updateEmail(email: string) {
-            this.email = email;
-            await this.save();
-        }
-    }
   });
 
 const UserModel = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);  

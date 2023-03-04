@@ -5,6 +5,7 @@ import { ObjectId } from 'mongodb';
 import IWallet from "../../../components/types/IWallet";
 import IContact from "../../../components/types/IContact";
 import IUser from "../../../components/types/IUser";
+import IPlaidAccount from '@/components/types/IPlaidAccount';
 
 const uri = `mongodb+srv://admin:${process.env.DB_KEY}@whalewallet.tj5l6ae.mongodb.net/whalewallet?retryWrites=true&w=majority`;
 
@@ -142,22 +143,22 @@ async function getObjectIdOfWallet(
   return await UserModel.find({
     $or: [{ email: user.email }, { name: user.name }],
   })
-    .then((res) => {
-      const id = res[0].wallets.find(
-        (w: IWallet) =>
-          w.address === wallet.address ||
-          w.name === wallet.name ||
-          w.ens === wallet.ens ||
-          w.lens === wallet.lens,
-      )._id;
-      if (!id) {
-        throw Error('Failed to find wallet');
-      }
-      return id;
-    })
-    .catch((err) => {
-      throw Error('Failed to find user');
-    });
+  .then((res) => {
+    const id = res[0].wallets.find(
+      (w: IWallet) =>
+        w.address === wallet.address ||
+        w.name === wallet.name ||
+        w.ens === wallet.ens ||
+        w.lens === wallet.lens,
+    )._id;
+    if (!id) {
+      throw Error('Failed to find wallet');
+    }
+    return id;
+  })
+  .catch((err) => {
+    throw Error('Failed to find user');
+  });
 }
 async function getObjectIdOfContact(
   user: IUser,
@@ -183,6 +184,55 @@ async function getObjectIdOfContact(
       throw Error('Failed to find user');
     });
 }
+async function getObjectIdOfAccount(user: IUser, account: IPlaidAccount): Promise<ObjectId> {
+
+  return await UserModel.find({
+    $or: [{ email: user.email }, { name: user.name }],
+  })
+  .then((res) => {
+    const id = res[0].plaidAccounts.find(
+      (a: IPlaidAccount) =>
+        a.name.toLowerCase() === account.name.toLowerCase(),
+    )._id;
+    if (!id) {
+      throw Error('Failed to find account');
+    }
+    return id;
+  })
+  .catch((err) => {
+    throw Error('Failed to find user');
+  });
+}
+
+// ------------------ PLAID METHODS ------------------
+async function addPlaidAccount(user_id: string, account: IPlaidAccount) {
+  return await UserModel.updateOne(
+    { _id: user_id },
+    { $push: { plaidAccounts: account } },
+  ).catch((err) => {
+    throw Error('Failed to add plaid account');
+  }
+  );
+}
+
+async function removePlaidAccount(user_id: string, account: IPlaidAccount) {
+  return await UserModel.updateOne(
+    { _id: user_id },
+    {
+      $pull: {
+        plaidAccounts: {
+          $or: [
+            { _id: account._id }
+          ],
+        },
+      },
+    },
+  ).catch((err) => {
+    throw Error('Failed to remove plaid account');
+  }
+  );
+}
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -300,14 +350,42 @@ export default async function handler(
                 ),
               );
             break;
+
+          case 'account':
+            res.status(200).json(
+              await getObjectIdOfAccount(
+                req.body.user as IUser,
+                req.body.account as IPlaidAccount,
+              ),
+            );
+            break;
+
           default:
             res
               .status(405)
               .json({
-                error: 'Method not allowed, only user, wallet, or contact',
+                error: 'Method not allowed, only user, wallet, contact, or account',
               });
         }
         break;
+
+      case 'plaid':
+        switch (req.method) {
+          case 'POST':
+            res.status(200).json(await addPlaidAccount(slug[1], req.body.account as IPlaidAccount));
+            break;
+          case 'DELETE':
+            res.status(200).json(await removePlaidAccount(slug[1], req.body.account as IPlaidAccount));
+            break;
+          default:
+            res
+            .status(405)
+            .json({
+              error: 'Method not allowed, only post or delete for plaid',
+            });
+        }
+        break;
+
 
       default:
         res
@@ -316,7 +394,7 @@ export default async function handler(
             error: 'Method not allowed, only users, wallets, or contacts',
           });
     }
-  } 
+  }
   catch (e) {
     res.status(500).json({ error: (e as Error).message });
   }

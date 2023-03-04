@@ -61,7 +61,6 @@ export default function PlaidDisplay() {
                 {user?._id}
                 {user?.email}
                 {user?.plaid_access_token}
-                {user?.plaid_item_id}
             </p>
         </div>
     );
