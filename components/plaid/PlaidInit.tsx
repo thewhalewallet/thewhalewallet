@@ -6,11 +6,11 @@ interface CreateLinkResponse {
   link_token: string;
 }
 
-export default function PlaidInit({userId } : {userId: string}) {
+export default function PlaidInit({ user_id } : {user_id: string}) {
   const [linkToken, setLinkToken] = useState<string>('');
   const generateToken = async () => {
     const res: AxiosResponse<CreateLinkResponse> = await axios.post('/api/plaid/create_link_token', {
-      userId: userId
+      user_id: user_id,
     });
     setLinkToken(res.data.link_token);
   };
@@ -21,5 +21,5 @@ export default function PlaidInit({userId } : {userId: string}) {
     });
   }, []);
   
-  return linkToken != null ? <PlaidLink link_token={linkToken} user_id={user_id}/> : <div></div>;
+  return linkToken != null ? <PlaidLink link_token={linkToken} user_id={user_id}/> : <></>;
 }
