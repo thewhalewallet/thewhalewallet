@@ -5,5 +5,5 @@ export default interface IWallet {
     isFavorite: boolean;
     ens: string;
     lens: string;
-  }
+}
   

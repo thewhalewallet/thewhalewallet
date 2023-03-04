@@ -1,22 +1,24 @@
-import Navbar from '@/components/Navbar';
-import PlaidDisplay from '@/components/plaid/PlaidDisplay';
 import IUser from '@/components/types/IUser';
-import WalletDisplay from '@/components/WalletDisplay';
 import { DynamicContextProvider, useDynamicContext } from '@dynamic-labs/sdk-react';
 import { useEffect, useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
 import React from 'react';
 import WalletsDashboard from '@/components/WalletsDashboard';
+import { getUserByEmail } from '@/components/utils/contact.service';
+import { noUser } from '@/components/types/hardcoded/noUser';
 
 export const UserContext = React.createContext({} as IUser);
 
 export default function Dashboard() {
-    const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
+    const [currentUser, setCurrentUser] = useState<IUser>(noUser);
 
     useEffect(() => {
-        //Fetch user from database
-        // let user = await getUser();
-        // setCurrentUser(user);
+        const init = async () => {
+            await getUserByEmail({ user_email: "fake_email@gmail.com"}).then((user) => {
+                setCurrentUser(user);
+            });
+        } 
+        init();  
     }, []);
 
     

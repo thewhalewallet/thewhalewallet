@@ -10,7 +10,7 @@ import ContactList from '@/components/ContactList';
 import { DynamicContextProvider, DynamicWidget } from '@dynamic-labs/sdk-react';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
-import { getFollowingByWalletAddress } from '@/components/utils/wallet.service';
+import { addWalletByEmail, getFollowingByWalletAddress } from '@/components/utils/wallet.service';
 
 import { getEthAddressBalance } from '@/components/utils/covalent.service';
 import ListOfDetailedWallets from '@/components/ListOfDetailedWallets';
@@ -28,21 +28,22 @@ import { UserContext } from '@/pages';
 import IWrappedUser from './types/IDetailedUser';
 import IUser from './types/IUser';
 import { noUser } from './types/hardcoded/noUser';
+import { Button } from '@mui/material';
 
 
 export const SendFundModalContext = React.createContext(()=>{});
 
-function WalletsDashboard() {
+export default function WalletsDashboard() {
     const [user, setUser] = React.useState<IWrappedUser>(noUser);
 
-    let [contactListOpen, setContactListOpen] = React.useState(false);
-    let [sendFundModalOpen, setSendFundModalOpen] = React.useState(false);
+    const [contactListOpen, setContactListOpen] = React.useState(false);
+    const [sendFundModalOpen, setSendFundModalOpen] = React.useState(false);
 
     const userContext = React.useContext(UserContext);
 
     useEffect(() => {
         setup(userContext);
-    }, []);
+    }, [userContext]);
 
     const setup = async (user: IUser) => {
         let detailedWallets = await getDetailedWallets(user.wallets);
@@ -156,6 +157,17 @@ function WalletsDashboard() {
         setSendFundModalOpen(false);
     }
 
+    const addWallet = async () => {
+        let wallet = {
+            name: "Wallet 1",
+            address: "0x0dFFCe077ec519615C8Dd7Ee386e1dDAa596EB23",
+            ens: "madhuran.eth",
+            lens: "madhuran.lens",
+            isFavorite: false,
+        } as IWallet;
+        addWalletByEmail({email_address: user.email, wallet: wallet});
+    }
+
 
     const connectNewWallet = async () => {
         console.log("connect new wallet");
@@ -212,7 +224,7 @@ function WalletsDashboard() {
                     <AddressTrio key={wallet.addressTrio.address} addressTrio={wallet.addressTrio} />
                 )
             })} */}
-
+            <Button onClick={openSendFundModal}>Send Funds</Button>
             {/* <div>
                 <div style={{display: "flex"}}>
                     <h3>Cryptos</h3>
@@ -258,5 +270,4 @@ function WalletsDashboard() {
     );
 }
 
-export default WalletsDashboard;
 

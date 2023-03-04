@@ -1,3 +1,6 @@
+import axios from 'axios';
+import IWallet from '../types/IWallet';
+import { getUserIdByEmail } from './contact.service';
 import { 
     client, 
     defaultProfileByWalletAddress, 
@@ -35,8 +38,12 @@ async function getFollowingByWalletAddress(walletAddress: string) {
     return result.data.following;
 }
 
-
-
-
+export async function addWalletByEmail({email_address, wallet} : {email_address: string, wallet: IWallet}) {
+    let user_id = await getUserIdByEmail({user_email: email_address});
+    console.log(user_id);
+    return await axios.post(`/api/db/wallets/${user_id}`, { wallet: wallet }).catch((err) => {
+        console.log(err);
+    });
+}
 
 export { getLensProfileByWalletAddress, getFollowingByWalletAddress, getEnsByWalletAddress};
