@@ -17,8 +17,8 @@ async function getUser(user_id: string): Promise<IUser> {
     throw Error('Failed to find user');
   });
 }
-async function createUser(user: IUser) {
-  await UserModel.create(user).catch((err) => {
+async function createUser(user: IUser): Promise<IUser> {
+  return await UserModel.create(user).catch((err) => {
     throw Error('Failed to create user');
   });
 }
