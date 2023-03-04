@@ -27,7 +27,7 @@ export default function Dashboard() {
                 <div className="hero-content text-center">
 
                     {/* <WalletDisplay /> */}
-                    <PlaidDisplay />
+                    <PlaidDisplay user={currentUser}/>
 
                 </div>
             </div>

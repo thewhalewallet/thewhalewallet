@@ -23,10 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await client
     .linkTokenCreate({
       user: {
-        client_user_id: '123-test-user-id',
+        client_user_id: req.body.user_id as string,
       },
       client_name: 'WhaleWallet',
-      products: [Products.Auth, Products.Transactions],
+      products: [Products.Auth, Products.Balance],
       country_codes: [CountryCode.Us],
       language: 'en',
       webhook: process.env.NEXT_PUBLIC_PLAID_HOOK,
