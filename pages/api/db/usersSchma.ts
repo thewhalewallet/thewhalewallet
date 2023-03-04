@@ -9,6 +9,24 @@ const UserSchema = new Schema<IUser>({
     email: { type: String, required: true, unique: true},
     name: { type: String, required: false, default: '' },
     image: { type: String, required: false, default: '' },
+    wallets: [
+      {
+        address: { type: String, required: true },
+        name: { type: String, required: false, default: ''},
+        ens: { type: String, required: false, default: '' },
+        lens: { type: String, required: false, default: '' },
+        isFavorite: { type: Boolean, required: false, default: false },
+      },
+    ],
+    contacts: [
+        {
+            name: { type: String, required: true },
+            address: { type: String, required: true },
+            ens: { type: String, required: false, default: ''},
+            lens: { type: String, required: false, default: ''},
+            isFavorite: { type: Boolean, required: false, default: false },
+        }
+    ],
     plaid_access_token: { type: String, required: false, default: '' },
     plaid_account: [
         {
@@ -27,24 +45,14 @@ const UserSchema = new Schema<IUser>({
             type: { type: String, required: true },
         }
     ],
-    wallets: [
-      {
-        address: { type: String, required: true },
-        name: { type: String, required: false, default: ''},
-        ens: { type: String, required: false, default: '' },
-        lens: { type: String, required: false, default: '' },
-        isFavorite: { type: Boolean, required: false, default: false },
-      },
-    ],
-    contacts: [
+    plaid_tx: [
         {
-            name: { type: String, required: true },
-            address: { type: String, required: true },
-            ens: { type: String, required: false, default: ''},
-            lens: { type: String, required: false, default: ''},
-            isFavorite: { type: Boolean, required: false, default: false },
+          account_id: { type: String, required: true },
+          amount: { type: Number, required: true },
+          date: { type: Date, required: true },
+          merchant_name: { type: String, required: false, default: '' },
         }
-    ]
+      ],
   });
 
 const UserModel = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);  
