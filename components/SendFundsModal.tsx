@@ -23,10 +23,10 @@ export default function SendFundsModal({opened, handleClose}: {opened: boolean, 
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-                <BasicLayout
+                {/* <BasicLayout
                     navContent={<></>}
                     bodyContent={<></>}
-                />
+                /> */}
 
             </Box>
         </Modal>

@@ -3,5 +3,4 @@ import IAddressTrio from "./AddressTrio";
 
 export default interface IWallet {
     addressTrio: IAddressTrio,
-    balance: float,
 }
