@@ -1,12 +1,11 @@
 import '@/styles/globals.css';
 import '@/styles/login.css';
 import type { AppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
+import { useEffect } from 'react';
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+     <Component {...pageProps} />
   );
 }
