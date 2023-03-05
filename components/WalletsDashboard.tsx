@@ -165,31 +165,6 @@ export default function WalletsDashboard() {
         setSendFundModalOpen(false);
     }
 
-    const addNewWallets = () => {
-        useDynamicContext();
-    }
-
-
-    const connectNewWallet = async () => {
-        console.log("connect new wallet");
-
-        // let result = await connect({
-        //     connector: new InjectedConnector(),
-        // });
-        // let balance = await checkBalanceEth(result.account);
-        // let newWallet = {
-        //     addressTrio: {
-        //         walletAddress: result.account,
-        //         ensAddress: "",
-        //         lensAddress: "",
-        //     },
-        //     balance: 10.0,
-        // } as IWallet;
-        // setWallets([...wallets, newWallet]);
-        // console.log(result);
-        // await disconnect();
-    }
-
     const navBarProps = {
         crumbName: "Wallets",
         crumbNameClickHandler: closeContactList,

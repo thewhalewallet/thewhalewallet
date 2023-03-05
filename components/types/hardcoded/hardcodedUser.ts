@@ -55,6 +55,8 @@ export const user: IUser = {
     image: "image.url",
     plaid_access_token: "plaid_access_token",
     plaid_item_id: "plaid_item_id",
+    plaid_account: [],
+    plaid_tx: [],
     wallets: userWallets,
     contacts: hardcodedContacts,
 };

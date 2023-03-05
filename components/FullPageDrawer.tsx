@@ -8,7 +8,8 @@ export default function FullPageDrawer({ fullPageDrawerProps } : { fullPageDrawe
     const getDrawerHeight = () => {
         if (fullPageDrawerProps.anchor == "bottom") {
             return "98%";
-        } else {
+        } 
+        else {
             return "100%";
         }
     }

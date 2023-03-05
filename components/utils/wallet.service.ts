@@ -46,4 +46,5 @@ export async function addWalletByEmail({email_address, wallet} : {email_address:
     });
 }
 
+
 export { getLensProfileByWalletAddress, getFollowingByWalletAddress, getEnsByWalletAddress};

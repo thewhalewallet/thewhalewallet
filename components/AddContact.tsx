@@ -62,12 +62,17 @@ export default function AddContact({ close } : { close: () => void }) {
             getLensProfileByWalletAddress(walletAddress).then((lensProfile) => {
                 let lensAddress = lensProfile?.handle || "";
                 setPotentialAddressTrio({address: walletAddress, ens: ensAddress, lens: lensAddress} as IAddressTrio);
-            }).catch((err) => {console.log("Error fetching LENS profile: " + err)});
-        } else if (isEthENSAddress(inputAddress)) {
+            }).catch((err) => {
+                console.log("Error fetching LENS profile: " + err)
+            });
+        } 
+        else if (isEthENSAddress(inputAddress)) {
             console.log("ENS address");
-        } else if (isEthLENSAddress(inputAddress)) {
+        } 
+        else if (isEthLENSAddress(inputAddress)) {
             console.log("LENS address");
-        } else {
+        } 
+        else {
             setPotentialAddressTrio(null);
         }
     }
@@ -100,7 +105,11 @@ export default function AddContact({ close } : { close: () => void }) {
                     fullWidth
                     placeholder="Wallet adress, ENS or LENS" 
                     value={inputAddress} 
-                    onChange={(e)=>{inputAddressChanged(e.target.value)}}
+                    onChange={
+                        (e)=>{
+                            inputAddressChanged(e.target.value)
+                    }
+                }
                 />
                 {/* Show address trio created when typing in textfield */}
                 <div>

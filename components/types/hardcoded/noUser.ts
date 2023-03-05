@@ -11,6 +11,8 @@ export const noUser: IWrappedUser = {
     image: "None",
     plaid_access_token: "None",
     plaid_item_id: "None",
+    plaid_account: [],
+    plaid_tx: [],
     detailedWallets: [] as IDetailedWallet[],
     wrappedContacts: [] as IWrappedContact[],
     wallets: [] as IWallet[],
