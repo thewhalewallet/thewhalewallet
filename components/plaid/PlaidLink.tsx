@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 // Not sure why this is needed, but it is.
@@ -24,18 +25,15 @@ const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
   };
   const { open, ready } = usePlaidLink(config);
   return (
-    <div className='flex flex-row justify-center p-2'>
-
     <button
+      className="whaleButton"
       onClick={() => {
         open();
       }}
       disabled={!ready}
-      className="btn btn-secondary btn-sm"
       >
-      Add Account
+      Add Bank Account
     </button>
-      </div>
   );
 };
 

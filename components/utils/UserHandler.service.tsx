@@ -55,6 +55,6 @@ export default function UserHandler(
     }, [dynUser, setCurrentUser]);
 
     return (
-        <></>
+        <div></div>
     );
 }

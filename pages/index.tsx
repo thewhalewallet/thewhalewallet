@@ -9,6 +9,7 @@ import { noUser } from '@/components/types/hardcoded/noUser';
 
 export const UserContext = React.createContext({} as IUser);
 import { PlaidChart } from '@/components/plaid/PlaidChart';
+import WalletDisplay from '@/components/WalletDisplay';
 
 export default function Dashboard() {
     const [currentUser, setCurrentUser] = useState<IUser>(noUser);
@@ -25,11 +26,11 @@ export default function Dashboard() {
     
     return (
         <div className="takespace">
-                <UserContext.Provider value={currentUser}>
-                    <WalletsDashboard />
-                </UserContext.Provider>
-                {/* <PlaidDisplay /> */}
-                <UserHandler setCurrentUser={setCurrentUser} />
+            <UserContext.Provider value={currentUser}>
+                <WalletsDashboard />
+                <WalletDisplay />
+            </UserContext.Provider>
+            <UserHandler setCurrentUser={setCurrentUser} />
         </div>
     );
 }

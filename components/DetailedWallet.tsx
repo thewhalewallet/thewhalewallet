@@ -3,31 +3,12 @@ import React from 'react';
 
 import styles from './DetailedWallet.module.css';
 import Nasdaq from './Nasdaq';
+import { RoundedBox } from './RoundedBox';
 import IDetailedCoinInfo from './types/IDetailedCoinInfo';
 import IDetailedWallet from './types/IDetailedWallet';
+import IRoundedBoxProps from './types/props/IRoundedBoxProps';
 
-interface IRoundedBoxProps {
-    bgColor?: string;
-    borderColor?: string;
-    width?: string;
-    children?: React.ReactNode;
-}
 
-function RoundedBox({ roundedBoxProps, onClickHandler } : 
-    { roundedBoxProps: IRoundedBoxProps, onClickHandler: () => void }) {
-    return (
-        <Box sx={{
-                bgcolor: roundedBoxProps.bgColor, 
-                borderColor: roundedBoxProps.borderColor,
-                width: roundedBoxProps.width,
-            }} 
-            className={styles.roundedBox} 
-            onClick={onClickHandler}
-        >
-            {roundedBoxProps.children}
-        </Box>
-    );
-}
 
 export default function DetailedWallet({ detailedWallet }: { detailedWallet: IDetailedWallet}) {
     const [showDetails, setShowDetails] = React.useState(false);
@@ -71,15 +52,17 @@ export default function DetailedWallet({ detailedWallet }: { detailedWallet: IDe
                             })
                         }
                     </AvatarGroup>
-                    <div>{`${getWalletTotalBalance().toFixed(2)} ${detailedWallet.quoteCurrency}`}</div>
+                    <div className="stat-value">{`${getWalletTotalBalance().toFixed(2)} ${detailedWallet.quoteCurrency}`}</div>
                 </div>
             </>
-        )
+        ),
+        onClickHandler: walletClicked,
+        loadingBackdrop: true,
     }
 
     return (
         <>
-            <RoundedBox roundedBoxProps={walletBoxProps} onClickHandler={walletClicked} />
+            <RoundedBox roundedBoxProps={walletBoxProps} />
             {
                 showDetails ? 
                 detailedWallet.detailedCoinInfos.map((detailedCoinInfo) => {
@@ -125,8 +108,11 @@ export default function DetailedWallet({ detailedWallet }: { detailedWallet: IDe
                     }
                     return (
                         <RoundedBox key={detailedCoinInfo.contractAddress} 
-                            roundedBoxProps={coinBoxProps} 
-                            onClickHandler={() => coinClicked(detailedCoinInfo)} 
+                            roundedBoxProps={{
+                                ...coinBoxProps,
+                                onClickHandler: () => coinClicked(detailedCoinInfo),
+                                loadingBackdrop: true,
+                            }}
                         />
                     )
                 })
