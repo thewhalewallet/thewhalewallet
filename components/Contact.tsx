@@ -3,6 +3,8 @@ import React from 'react';
 import AddressTrio from './AddressTrio';
 import BasicLayout from './BasicLayout';
 import FullPageDrawer from './FullPageDrawer';
+import { RoundedBox } from './RoundedBox';
+import SpinningWhale from './SpinningWhale';
 import IAddressTrio from './types/AddressTrio';
 import IWrappedContact from './types/IWrappedContact';
 import IBasicLayoutProps from './types/props/IBasicLayoutProps';
@@ -41,34 +43,45 @@ export default function Contact({close, contact}: {close: () => void, contact: I
             navActionClickHandler: openEditContactDrawer
         },
         bodyContent: (
-            <>
-                <List sx={{ width: '100%', bgcolor: 'lightgrey' }}>
-                    <ListItem>
-                        <ListItemText primary="Name" secondary={contact.name} />
-                    </ListItem>
-                </List>
+            <div>
+                <RoundedBox
+                    roundedBoxProps={{
+                        bgColor: "lightgrey",
+                        borderColor: "black",
+                        width: "100%",
+                        children: (
+                            <div>
+                                <div className="stat-title">Name</div>
+                                <div className="">{contact.name}</div>
+                            </div>
+                        )
+                    }}
+                />
                 <AddressTrio addressTrio={contactAddressTrio} />
 
                 {/* If lens contact, add button to add to database */}
                 {contact.isFromLens ? 
-                    <Button style={{width: "100%", backgroundColor:"#ABFE2C"}}
+                    <button 
+                        className="whaleButton"
+                        style={{width: "100%", backgroundColor:"#ABFE2C"}}
                         onClick={saveLensContact}
                     >
-                        Add LENS contact to account
-                    </Button>
+                        🌿Add LENS contact to account🌿
+                    </button>
                     :
                     <></>
                 }
                 <SendFundModalContext.Consumer>
                     {value => 
-                        <Button onClick={value}
+                        <button className="whaleButton"
                             style={{width: "100%"}}
+                            onClick={value}
                         >
                             Send Funds To {contact.name}
-                        </Button>
+                        </button>
                     }
                 </SendFundModalContext.Consumer>
-            </>
+            </div>
         ),
     } as IBasicLayoutProps;
 

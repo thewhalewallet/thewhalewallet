@@ -23,7 +23,7 @@ export default function Nasdaq({ sep, stringList }: { sep: string, stringList: s
     }, [textCopy]);
 
     return (
-        <div className={styles.nasdaq}>
+        <div className={[styles.nasdaq, "stat-desc"].join(" ")}>
             {textCopy}
         </div>
     );

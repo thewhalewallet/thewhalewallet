@@ -29,6 +29,11 @@ import IWrappedUser from './types/IDetailedUser';
 import IUser from './types/IUser';
 import { noUser } from './types/hardcoded/noUser';
 import { Button } from '@mui/material';
+import PlaidDisplay from './plaid/PlaidDisplay';
+import { RoundedBox } from './RoundedBox';
+import IRoundedBoxProps from './types/props/IRoundedBoxProps';
+import { PlaidChart } from './plaid/PlaidChart';
+import { Box } from '@mui/system';
 
 export const SendFundModalContext = React.createContext(()=>{});
 
@@ -207,17 +212,36 @@ export default function WalletsDashboard() {
         navActionClickHandler: showContactList,
     } as INavBarProps;
 
+    // bgColor?: string;
+    // borderColor?: string;
+    // width?: string;
+    // children?: React.ReactNode;
+
+
     const bodyContent = (
         <>
             {/* Total balance */}
-            <div style={{display:"flex", justifyContent:"center"}}>
-                <div className="stats shadow">
-                    <div className="stat">
-                        <div className="stat-title">Total Balance</div>
-                        <div className="stat-value">{`${getTotalBalanceOfUser().toFixed(2)} USD`}</div>
+            <RoundedBox roundedBoxProps={{
+                bgColor: "light-green",
+                width: "100%",
+
+                children: (
+                    <div>
+                        <div style={{display:"flex", justifyContent:"center"}}>
+                            <div>
+                                <div className="stat-title">Total Balance</div>
+                                <div className="stat-value">{`${getTotalBalanceOfUser().toFixed(2)} USD`}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <PlaidChart user={loggedUser}/>
+                        </div>
                     </div>
-                </div>
-            </div>
+                    
+
+                )} as IRoundedBoxProps} 
+            />
+
             {/* Crypto wallets */}
             {
                 loggedUser.detailedWallets.map((wallet : IDetailedWallet) => {
@@ -226,13 +250,18 @@ export default function WalletsDashboard() {
                     )
                 })
             }
-            {/* <ListOfDetailedWallets detailedWallets={wallets}/> */}
-            {/* {user.wallets.map((wallet) => {
-                return (
-                    <AddressTrio key={wallet.addressTrio.address} addressTrio={wallet.addressTrio} />
-                )
-            })} */}
-            <Button onClick={() => setShowAuthFlow(true)}>Add New Wallets</Button>
+            <Box display={"flex"}>
+                <button className="whaleButton"
+                    style={{flex:1}}
+                    onClick={() => setShowAuthFlow(true)}
+                >
+                    Add New Wallets
+                </button>
+                <div style={{flex:1}}>
+                    <PlaidDisplay user={loggedUser}/>
+                </div>
+            </Box>
+
             <Button onClick={openSendFundModal}>Send Funds</Button>
 
             {/* <div>
