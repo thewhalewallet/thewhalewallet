@@ -24,15 +24,18 @@ const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
   };
   const { open, ready } = usePlaidLink(config);
   return (
+    <div className='flex flex-row justify-center p-2'>
+
     <button
       onClick={() => {
         open();
       }}
       disabled={!ready}
       className="btn btn-secondary btn-sm"
-    >
+      >
       Add Account
     </button>
+      </div>
   );
 };
 
