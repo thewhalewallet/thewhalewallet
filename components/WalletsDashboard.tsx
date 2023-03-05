@@ -44,7 +44,7 @@ export default function WalletsDashboard() {
     const [detailedUser, setDetailedUser] = React.useState<IWrappedUser>(noUser);
 
     const { loggedUser } = React.useContext(UserContext);
-
+    // a comment
     useEffect(() => {
         console.log(user);
     }, [user, walletConnector]);
