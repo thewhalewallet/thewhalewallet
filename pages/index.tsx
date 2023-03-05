@@ -1,8 +1,4 @@
 import IUser from '@/components/types/IUser';
-import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
-import { useEffect, useState } from 'react';
-import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
-import { useEffect, useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
 import React from 'react';
 import WalletsDashboard from '@/components/WalletsDashboard';
@@ -21,17 +17,7 @@ export const UserContext = React.createContext<IUserContext>({
 });
 
 export default function Dashboard() {
-    const [currentUser, setCurrentUser] = useState<IUser>(noUser);
-
-    useEffect(() => {
-        const init = async () => {
-            await getUserByEmail({ user_email: "fake_email@gmail.com"}).then((user) => {
-                setCurrentUser(user);
-            });
-        }
-        init();
-    }, [currentUser]);
-
+    const [currentUser, setCurrentUser] = React.useState<IUser>(noUser);
 
     const refreshLoggedUser = async () => {
         console.log("refreshing logged user");
