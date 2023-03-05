@@ -5,6 +5,7 @@ import WalletDisplay from '@/components/WalletDisplay';
 import { DynamicContextProvider, useDynamicContext } from '@dynamic-labs/sdk-react';
 import { useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
+import { PlaidChart } from '@/components/plaid/PlaidChart';
 
 export default function Dashboard() {
 
@@ -23,13 +24,14 @@ export default function Dashboard() {
             }}
         >
             <UserHandler setCurrentUser={setCurrentUser} />
-            
+
             <Navbar />
             <div className="hero min-h-screen bg-base-100">
                 <div className="hero-content text-center">
 
+                    <PlaidChart />
                     {/* <WalletDisplay /> */}
-                    <PlaidDisplay user={currentUser}/>
+                    {/* <PlaidDisplay user={currentUser}/> */}
 
                 </div>
             </div>

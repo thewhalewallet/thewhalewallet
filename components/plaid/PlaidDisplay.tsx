@@ -7,15 +7,6 @@ export default function PlaidDisplay({user}: {user: IUser}) {
         return (
             <div>
                 <PlaidInit user_id={user._id }/>
-                <p>
-                    {user._id} 
-                </p>
-                <p>
-                    {user.email}
-                </p>
-                <p>
-                    {user.plaid_access_token}
-                </p>
             </div>
         );
     }
