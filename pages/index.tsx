@@ -25,22 +25,11 @@ export default function Dashboard() {
     
     return (
         <div className="takespace">
-            <DynamicContextProvider
-                settings={{
-                    appLogoUrl:
-                        'https://pasteboard.co/bilDMbPIERqf.png',
-                    appName: 'The Whale Wallet',
-                    environmentId: '488307e9-c2a6-4270-a7ac-2fa4915752f1',
-                    multiWallet: true,
-                    shadowDOMEnabled: true,
-                }}
-            >
                 <UserContext.Provider value={currentUser}>
                     <WalletsDashboard />
                 </UserContext.Provider>
                 {/* <PlaidDisplay /> */}
                 <UserHandler setCurrentUser={setCurrentUser} />
-            </DynamicContextProvider>
         </div>
     );
 }
