@@ -1,6 +1,7 @@
 # The Whale Wallet
 ##### EthDenver2023 Project Submission
 
+<img src="https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png" width="100" height="100">
 ![The Whale Wallet](https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png)
 
 ## Project Descrption
