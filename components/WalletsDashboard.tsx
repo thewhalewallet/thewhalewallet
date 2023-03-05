@@ -7,7 +7,7 @@ import FullPageDrawer from '@/components/FullPageDrawer';
 
 import ContactList from '@/components/ContactList';
 
-import { DynamicContextProvider, DynamicWidget } from '@dynamic-labs/sdk-react';
+import { useDynamicContext } from '@dynamic-labs/sdk-react';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
 import { addWalletByEmail, getFollowingByWalletAddress } from '@/components/utils/wallet.service';
@@ -30,16 +30,20 @@ import IUser from './types/IUser';
 import { noUser } from './types/hardcoded/noUser';
 import { Button } from '@mui/material';
 
-
 export const SendFundModalContext = React.createContext(()=>{});
 
 export default function WalletsDashboard() {
-    const [user, setUser] = React.useState<IWrappedUser>(noUser);
+    const { user, handleLogOut, setShowAuthFlow, showAuthFlow, walletConnector } = useDynamicContext();
+    const [loggedUser, setUser] = React.useState<IWrappedUser>(noUser);
 
     const [contactListOpen, setContactListOpen] = React.useState(false);
     const [sendFundModalOpen, setSendFundModalOpen] = React.useState(false);
 
     const userContext = React.useContext(UserContext);
+
+    useEffect(() => {
+        console.log(user);
+    }, [user, walletConnector]);
 
     useEffect(() => {
         setup(userContext);
@@ -142,7 +146,7 @@ export default function WalletsDashboard() {
     }
 
     const getTotalBalanceOfUser = () => {
-        return user.detailedWallets.reduce((total, wallet) => {
+        return loggedUser.detailedWallets.reduce((total, wallet) => {
             return total + wallet.detailedCoinInfos.reduce((total, coinInfo) => {
                 return total + coinInfo.quote;
             }, 0);
@@ -165,7 +169,11 @@ export default function WalletsDashboard() {
             lens: "madhuran.lens",
             isFavorite: false,
         } as IWallet;
-        addWalletByEmail({email_address: user.email, wallet: wallet});
+        addWalletByEmail({email_address: loggedUser.email, wallet: wallet});
+    }
+
+    const addNewWallets = () => {
+        useDynamicContext();
     }
 
 
@@ -212,7 +220,7 @@ export default function WalletsDashboard() {
             </div>
             {/* Crypto wallets */}
             {
-                user.detailedWallets.map((wallet : IDetailedWallet) => {
+                loggedUser.detailedWallets.map((wallet : IDetailedWallet) => {
                     return (
                         <DetailedWallet key={wallet.address} detailedWallet={wallet} />
                     )
@@ -224,7 +232,9 @@ export default function WalletsDashboard() {
                     <AddressTrio key={wallet.addressTrio.address} addressTrio={wallet.addressTrio} />
                 )
             })} */}
+            <Button onClick={() => setShowAuthFlow(true)}>Add New Wallets</Button>
             <Button onClick={openSendFundModal}>Send Funds</Button>
+
             {/* <div>
                 <div style={{display: "flex"}}>
                     <h3>Cryptos</h3>
@@ -256,17 +266,19 @@ export default function WalletsDashboard() {
     const contactListDrawerProps = {
         anchor: "left",
         open: contactListOpen,
-        pageContent: (<ContactList close={closeContactList} wrappedContacts={user.wrappedContacts}/>),
+        pageContent: (<ContactList close={closeContactList} wrappedContacts={loggedUser.wrappedContacts}/>),
     } as IFullPageDrawerProps;
 
     return (
-        <SendFundModalContext.Provider value={openSendFundModal}>
-            <BasicLayout basicLayoutProps={walletsBasicLayoutProps} />
-            <FullPageDrawer
-                fullPageDrawerProps={contactListDrawerProps}
-            />
-            <SendFundsModal open={sendFundModalOpen} handleClose={closeSendFundModal} />
-        </SendFundModalContext.Provider>
+        <div className="takespace">
+            <SendFundModalContext.Provider value={openSendFundModal}>
+                <BasicLayout basicLayoutProps={walletsBasicLayoutProps} />
+                <FullPageDrawer
+                    fullPageDrawerProps={contactListDrawerProps}
+                />
+                <SendFundsModal userDetailedWallets={loggedUser.detailedWallets} open={sendFundModalOpen} handleClose={closeSendFundModal} />
+            </SendFundModalContext.Provider>
+        </div>
     );
 }
 

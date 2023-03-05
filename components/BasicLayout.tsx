@@ -5,13 +5,13 @@ import styles from './BasicLayout.module.css';
 import IBasicLayoutProps from './types/props/IBasicLayoutProps';
 
 
-export default function basicLayout({ basicLayoutProps } : { basicLayoutProps: IBasicLayoutProps }) {
+export default function BasicLayout({ basicLayoutProps } : { basicLayoutProps: IBasicLayoutProps }) {
     return (
-        <Box className={styles.basicLayoutStyle}>
+        <Box className="takespace" style={{padding: "8px 14px"}}>
             <Navbar navBarProps={basicLayoutProps.navBarProps} />
-            <div className={styles.bodyStyle}>
+            <Box className={styles.bodyStyle}>
                 { basicLayoutProps.bodyContent }
-            </div>
+            </Box>
         </Box>
     );
 }
