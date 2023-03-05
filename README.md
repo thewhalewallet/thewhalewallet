@@ -1,5 +1,5 @@
 # The Whale Wallet
-##### EthDenver2023 Project Submission
+##### [EthDenver2023 Project Submission](https://app.buidlbox.io/projects/thewhalewallet)
 
 <img src="https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png" width="400" height="400">
 
