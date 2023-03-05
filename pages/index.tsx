@@ -23,9 +23,10 @@ export default function Dashboard() {
 
             <Navbar />
             {/* <div className="hero min-h-screen min-w-max bg-base-100"> */}
-            <div className='flex flex-auto flex-col place-items-center'>
+            <div className='flex grow-1 justify-center bg-slate-300'>
                 <PlaidChart user={currentUser} />
             </div>
+
                 {/* <WalletDisplay /> */}
                 {/* <PlaidDisplay user={currentUser}/> */}
             {/* </div> */}
