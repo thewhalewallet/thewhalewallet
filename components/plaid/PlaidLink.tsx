@@ -25,7 +25,7 @@ const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
   };
   const { open, ready } = usePlaidLink(config);
   return (
-    <div className='flex flex-row justify-center p-2'>
+    <div className='flex flex-row justify-center'>
 
     <button
       className="whaleButton"
