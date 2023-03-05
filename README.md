@@ -1,8 +1,7 @@
 # The Whale Wallet
 ##### EthDenver2023 Project Submission
 
-<img src="https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png" width="100" height="100">
-![The Whale Wallet](https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png)
+<img src="https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png" width="400" height="400">
 
 ## Project Descrption
 The Whale Wallet is more than just a wallet aggregator. The Whale Wallet helps you seamlessly manage all your web3 native assets together with traditional fiat accounts all in one place. Account abstraction and user authentication using traditional accounts/identity or web3 authentication signing options helps onboard any user and makes the web3 experience a seamless part of your everyday lives.
