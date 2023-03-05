@@ -12,31 +12,18 @@ export default function Dashboard() {
     const [currentUser, setCurrentUser] = useState<IUser>({} as IUser);
     
     return (
-        <div>
-        <DynamicContextProvider
-            settings={{
-                appLogoUrl:
-                    'https://pasteboard.co/bilDMbPIERqf.png',
-                appName: 'The Whale Wallet',
-                environmentId: '488307e9-c2a6-4270-a7ac-2fa4915752f1',
-                multiWallet: true,
-                shadowDOMEnabled: true,
-            }}
-        >
+        <>
             <UserHandler setCurrentUser={setCurrentUser} />
 
             <Navbar />
-            <div className="hero min-h-screen bg-base-100">
-                <div className="hero-content text-center">
-
-                    <PlaidChart />
-                    {/* <WalletDisplay /> */}
-                    {/* <PlaidDisplay user={currentUser}/> */}
-
-                </div>
+            {/* <div className="hero min-h-screen min-w-max bg-base-100"> */}
+            <div className='flex flex-auto flex-col place-items-center'>
+                <PlaidChart user={currentUser} />
             </div>
-        </DynamicContextProvider>
-        </div>
+                {/* <WalletDisplay /> */}
+                {/* <PlaidDisplay user={currentUser}/> */}
+            {/* </div> */}
+        </>
     );
 }
 
