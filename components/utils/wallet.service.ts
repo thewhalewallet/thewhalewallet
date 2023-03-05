@@ -8,26 +8,12 @@ import {
     getFollowing
 } from './LensProfile'
 
-const { ethers } = require("ethers");
-
-async function getEnsByWalletAddress(walletAddress: string) {
-    const provider = new ethers.providers.AlchemyProvider('mainnet', process.env.NEXT_PUBLIC_ALCHEMY_KEY);
-    let res = await provider.lookupAddress(walletAddress);
-    if (res) {
-        return res
-    }
-    return '';
-}
-
-async function getLensProfileByWalletAddress(walletAddress: string) {
-    let res = await client.query({
+export async function getLensProfileByWalletAddress(walletAddress: string) {
+    let result = await client.query({
         query: defaultProfileByWalletAddress,
         variables: { ethereumAddress: walletAddress }
     });
-    if (res.data.defaultProfile) {
-        return res.data.defaultProfile;
-    }
-    return '';
+    return result.data.defaultProfile;
 }
 
 export async function getFollowingByWalletAddress(walletAddress: string) {
@@ -54,4 +40,3 @@ export async function addWalletByEmail({email_address, wallet} : {email_address:
 
 
 
-export { getLensProfileByWalletAddress, getFollowingByWalletAddress, getEnsByWalletAddress};

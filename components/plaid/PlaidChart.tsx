@@ -67,7 +67,7 @@ export function PlaidChart({ user }: { user: IUser }) {
       ) : (
         <div>
           <Line options={options} data={data} />
-          <PlaidDisplay user={user} />
+          {/* <PlaidDisplay user={user} /> */}
         </div>
       )}
     </div>
