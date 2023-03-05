@@ -1,9 +1,15 @@
 import IUser from '@/components/types/IUser';
-import WalletDisplay from '@/components/WalletDisplay';
-import { DynamicConnectButton, DynamicContextProvider, DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react';
-import { useState } from 'react';
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
+import { useEffect, useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
+import React from 'react';
+import WalletsDashboard from '@/components/WalletsDashboard';
+import { getUserByEmail } from '@/components/utils/contact.service';
+import { noUser } from '@/components/types/hardcoded/noUser';
+
+export const UserContext = React.createContext({} as IUser);
 import { PlaidChart } from '@/components/plaid/PlaidChart';
+import WalletDisplay from '@/components/WalletDisplay';
 
 export default function Dashboard() {
     const [currentUser, setCurrentUser] = useState<IUser>(noUser);
@@ -19,21 +25,13 @@ export default function Dashboard() {
 
     
     return (
-        <>
-            <UserHandler setCurrentUser={setCurrentUser} />
-        
-            {/* <Navbar /> */}
-            {/* <div className="hero min-h-screen min-w-max bg-base-100"> */}
-            <div className='flex grow-1 justify-center bg-slate-300'>
-                {/* <PlaidChart user={currentUser} /> */}
-                <DynamicWidget variant='dropdown'/>
+        <div className="takespace">
+            <UserContext.Provider value={currentUser}>
+                <WalletsDashboard />
                 <WalletDisplay />
-            </div>
-
-                {/* <WalletDisplay /> */}
-                {/* <PlaidDisplay user={currentUser}/> */}
-            {/* </div> */}
-        </>
+            </UserContext.Provider>
+            <UserHandler setCurrentUser={setCurrentUser} />
+        </div>
     );
 }
 

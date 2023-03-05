@@ -22,14 +22,14 @@ async function getUser(user_id: string): Promise<IUser> {
   });
 }
 async function createUser(user: IUser): Promise<IUser> {
-  if (await UserModel.exists({ email: user.email })) {
-    throw Error('User already exists');
-  }
   return await UserModel.create(user).catch((err) => {
     throw Error('Failed to create user');
   });
 }
 async function updateUser(user: IUser) {
+  if (await UserModel.exists({ email: user.email })) {
+    throw Error('User already exists');
+  }
   await UserModel.updateOne({ email: user.email }, user).catch((err) => {
     throw Error('Failed to update user');
   });
