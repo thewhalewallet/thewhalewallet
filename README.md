@@ -3,9 +3,9 @@
 
 <img src="https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png" width="400" height="400">
 
-Link to live web application (for phone only): https://thewhalewallet-git-thomas-whalewallet.vercel.app/
+📱 [Link to live web application (for phone only)](https://thewhalewallet-git-thomas-whalewallet.vercel.app/)
 
-Link to video presentation: https://youtu.be/uVvGBQm-jqo
+🎥 [Link to video presentation:](https://youtu.be/uVvGBQm-jqo)
 
 ## Project Descrption
 The Whale Wallet is more than just a wallet aggregator. The Whale Wallet helps you seamlessly manage all your web3 native assets together with traditional fiat accounts all in one place. Account abstraction and user authentication using traditional accounts/identity or web3 authentication signing options helps onboard any user and makes the web3 experience a seamless part of your everyday lives.
@@ -23,20 +23,20 @@ Advanced contact management features allows you send crypto and native assets ea
 #BUIDLathon 2023 Infrastructure + Scalability
 
 ## Bounties:
-### Lens: Best Lens app
+### 🌿 Lens: Best Lens app
 * Mobile Friendly web app using Lens Protocol to manage web3 connections and contacts in an all in one integrated address book.
 * Leverage Lens Protocol by pulling in Lens Profiles based on wallet addresses, allows user to send crypto to Lens followings.
 
-### Lens: Integrate Lens
+### 🌿 Lens: Integrate Lens
 * Makes calls to Lens API to pull ENS, Lens profiles and handles, and web3 social information for user friendly contact/address book management
 * Lens following profiles are integrated into address book, and displayed with chip indicating you a respective Lens follow NFT. This is done through an API call to pull lens follows given a wallet or address you've added to The Whale Wallet.
 
-### Opolis: Crypto Retirement
+### <img src="https://user-images.githubusercontent.com/7215824/222976891-8fb0653d-fa1d-4888-89bc-dba3dd61245c.png" width="20" height="20">Opolis: Crypto Retirement
 * Multiple wallets AND bank accounts can be connected including retirement accounts. Balances can be displayed in aggregate or via breakdowns and visualised
 * Crypto assets are displayed in USD values to help calculate total wealth accross traditional bank accounts and web3 assets
 * API integration with Plaid, and Covalent
 
-### Covalent Unified API Bounties
+### <img src="https://user-images.githubusercontent.com/7215824/222976964-a6677b37-47c1-467f-8d50-5afea4ae5601.png" width="20" height="20">Covalent Unified API Bounties
 * Used Covalent API to pull USD values of Eth, and ERC20 assets
 * https://github.com/thewhalewallet/thewhalewallet/blob/71977332048e8dc6cc8d436dc41ab74a5c1262ce/components/utils/covalent.service.ts
 
