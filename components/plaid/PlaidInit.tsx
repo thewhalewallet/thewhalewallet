@@ -21,5 +21,5 @@ export default function PlaidInit({ user_id } : {user_id: string}) {
     });
   }, []);
   
-  return linkToken != null ? <PlaidLink link_token={linkToken} user_id={user_id}/> : <></>;
+  return linkToken != null ? <PlaidLink link_token={linkToken} user_id={user_id}/> : <div></div>;
 }

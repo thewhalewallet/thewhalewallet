@@ -60,23 +60,17 @@ export const data = {
 
 export function PlaidChart({ user }: { user: IUser }) {
   return (
-    <div className='place-items-center'>
-    <div className="stats bg-slate-300 text-primary-content min-w-max">
-      <div className="stat">
-        {user._id === undefined ? (
-          <p className='text-m'>Loading...</p>
-        ) : (
-          <div>
-            <div className="stat-title">Account balance</div>
-            <Line options={options} data={data} />
-            <div className="stat-actions">
-              <PlaidDisplay user={user} />
-            </div>
-          </div>
-        )}
+    <div>
 
-      </div>
+      {user._id === undefined ? (
+        <p className='text-m'>Loading...</p>
+      ) : (
+        <div>
+          <Line options={options} data={data} />
+          <PlaidDisplay user={user} />
+        </div>
+      )}
     </div>
-    </div>
+
   );
 }

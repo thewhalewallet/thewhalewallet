@@ -25,6 +25,8 @@ const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
   };
   const { open, ready } = usePlaidLink(config);
   return (
+    <div className='flex flex-row justify-center p-2'>
+
     <button
       className="whaleButton"
       onClick={() => {
@@ -32,9 +34,10 @@ const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
       }}
       disabled={!ready}
       className="btn btn-secondary btn-sm"
-    >
+      >
       Add Account
     </button>
+      </div>
   );
 };
 
