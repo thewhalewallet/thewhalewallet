@@ -1,6 +1,8 @@
 import IUser from '@/components/types/IUser';
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
 import { useEffect, useState } from 'react';
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
+import { useEffect, useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
 import React from 'react';
 import WalletsDashboard from '@/components/WalletsDashboard';

@@ -7,7 +7,7 @@ import FullPageDrawer from '@/components/FullPageDrawer';
 
 import ContactList from '@/components/ContactList';
 
-import { useDynamicContext } from '@dynamic-labs/sdk-react';
+import { DynamicConnectButton, DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
 import { addWalletByEmail, getFollowingByWalletAddress } from '@/components/utils/wallet.service';
@@ -199,7 +199,11 @@ export default function WalletsDashboard() {
     } as INavBarProps;
 
     const bodyContent = (
-        <>
+        <div>
+            <div className=''>
+                <DynamicWidget variant='modal'/>
+            </div>
+
             {/* Total balance */}
             <RoundedBox roundedBoxProps={{
                 bgColor: "light-green",
@@ -217,8 +221,6 @@ export default function WalletsDashboard() {
                             <PlaidChart user={loggedUser}/>
                         </div>
                     </div>
-                    
-
                 )} as IRoundedBoxProps} 
             />
 
@@ -244,27 +246,7 @@ export default function WalletsDashboard() {
 
             <Button onClick={openSendFundModal}>Send Funds</Button>
 
-            {/* <div>
-                <div style={{display: "flex"}}>
-                    <h3>Cryptos</h3>
-                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                        <Button>Wallets</Button>
-                        <Button>Cryptos</Button>
-                    </ButtonGroup>
-                    <DynamicContextProvider
-                        settings={{
-                        appLogoUrl:
-                            'public/theWaleWalletLogo.jpeg',
-                        appName: 'The Whale Wallet',
-                        environmentId: '18fa6c3f-9025-4c9b-8f5b-02eff904aa72'
-                        }}
-                    >
-                        <DynamicWidget/>
-                    </DynamicContextProvider>
-                </div>
-
-            </div> */}
-        </>
+        </div>
     );
 
     const walletsBasicLayoutProps = {

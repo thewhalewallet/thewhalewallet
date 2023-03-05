@@ -26,7 +26,7 @@ export async function OnLinkSuccessCallback(args: any) {
                 lens: lens,
         } as IWallet);
     }
-    console.log("Wallets" + wallets);
+    console.log(wallets);
     await axios.put(`/api/db/users`, {
         user: {
             email: args.user.email,
