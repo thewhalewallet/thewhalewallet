@@ -2,12 +2,16 @@ import IUser from '@/components/types/IUser';
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
 import { useEffect, useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
+<<<<<<< HEAD
 import React from 'react';
 import WalletsDashboard from '@/components/WalletsDashboard';
 import { getUserByEmail } from '@/components/utils/contact.service';
 import { noUser } from '@/components/types/hardcoded/noUser';
 
 export const UserContext = React.createContext({} as IUser);
+=======
+import { PlaidChart } from '@/components/plaid/PlaidChart';
+>>>>>>> 32d23e3 (initial chart setup complete)
 
 export default function Dashboard() {
     const [currentUser, setCurrentUser] = useState<IUser>(noUser);
