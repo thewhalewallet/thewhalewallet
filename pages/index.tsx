@@ -1,5 +1,5 @@
 import IUser from '@/components/types/IUser';
-import { DynamicContextProvider, useDynamicContext } from '@dynamic-labs/sdk-react';
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react';
 import { useEffect, useState } from 'react';
 import UserHandler from '@/components/utils/UserHandler.service';
 import React from 'react';
@@ -23,23 +23,23 @@ export default function Dashboard() {
 
     
     return (
-        <div>
-        <DynamicContextProvider
-            settings={{
-                appLogoUrl:
-                    'https://pasteboard.co/bilDMbPIERqf.png',
-                appName: 'The Whale Wallet',
-                environmentId: '488307e9-c2a6-4270-a7ac-2fa4915752f1',
-                multiWallet: true,
-                shadowDOMEnabled: true,
-            }}
-        >
-            <UserContext.Provider value={currentUser}>
-                <WalletsDashboard />
-            </UserContext.Provider>
-            {/* <PlaidDisplay /> */}
-            <UserHandler setCurrentUser={setCurrentUser} />
-        </DynamicContextProvider>
+        <div className="takespace">
+            <DynamicContextProvider
+                settings={{
+                    appLogoUrl:
+                        'https://pasteboard.co/bilDMbPIERqf.png',
+                    appName: 'The Whale Wallet',
+                    environmentId: '488307e9-c2a6-4270-a7ac-2fa4915752f1',
+                    multiWallet: true,
+                    shadowDOMEnabled: true,
+                }}
+            >
+                <UserContext.Provider value={currentUser}>
+                    <WalletsDashboard />
+                </UserContext.Provider>
+                {/* <PlaidDisplay /> */}
+                <UserHandler setCurrentUser={setCurrentUser} />
+            </DynamicContextProvider>
         </div>
     );
 }
