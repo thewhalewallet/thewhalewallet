@@ -14,21 +14,21 @@ import WalletDisplay from '@/components/WalletDisplay';
 export default function Dashboard() {
     const [currentUser, setCurrentUser] = useState<IUser>(noUser);
 
-    useEffect(() => {
-        const init = async () => {
-            await getUserByEmail({ user_email: "fake_email@gmail.com"}).then((user) => {
-                setCurrentUser(user);
-            });
-        } 
-        init();  
-    }, []);
+    // useEffect(() => {
+    //     const init = async () => {
+    //         await getUserByEmail({ user_email: "fake_email@gmail.com"}).then((user) => {
+    //             setCurrentUser(user);
+    //         });
+    //     } 
+    //     init();  
+    // }, []);
 
     
     return (
         <div className="takespace">
             <UserContext.Provider value={currentUser}>
                 <WalletsDashboard />
-                <WalletDisplay />
+                {/* <WalletDisplay /> */}
             </UserContext.Provider>
             <UserHandler setCurrentUser={setCurrentUser} />
         </div>

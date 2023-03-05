@@ -7,7 +7,7 @@ import FullPageDrawer from '@/components/FullPageDrawer';
 
 import ContactList from '@/components/ContactList';
 
-import { useDynamicContext } from '@dynamic-labs/sdk-react';
+import { DynamicConnectButton, DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
 import { addWalletByEmail, getFollowingByWalletAddress } from '@/components/utils/wallet.service';
@@ -177,11 +177,6 @@ export default function WalletsDashboard() {
         addWalletByEmail({email_address: loggedUser.email, wallet: wallet});
     }
 
-    const addNewWallets = () => {
-        useDynamicContext();
-    }
-
-
     const connectNewWallet = async () => {
         console.log("connect new wallet");
 
@@ -217,9 +212,23 @@ export default function WalletsDashboard() {
     // width?: string;
     // children?: React.ReactNode;
 
+    const test_button = (
+        <div>
+            <button className="whaleButton"
+            style={{flex:1}}
+            // onClick={() => setShowAuthFlow(true)}
+            >
+            Add New Wallets
+        </button>
+        </div>
+      ) as React.ReactElement;
 
     const bodyContent = (
-        <>
+        <div>
+            <div className=''>
+                <DynamicWidget variant='modal'/>
+            </div>
+
             {/* Total balance */}
             <RoundedBox roundedBoxProps={{
                 bgColor: "light-green",
@@ -251,12 +260,19 @@ export default function WalletsDashboard() {
                 })
             }
             <Box display={"flex"}>
-                <button className="whaleButton"
-                    style={{flex:1}}
-                    onClick={() => setShowAuthFlow(true)}
-                >
-                    Add New Wallets
-                </button>
+                {/* <DynamicConnectButton> */}
+                
+                {/* <DynamicConnectButton>
+                   <div className='whaleButton'>
+                        <a className='whaleButton'>test</a>
+                   </div>
+                </DynamicConnectButton> */}
+
+                 
+
+
+                {/* </DynamicWidget> */}
+                {/* </DynamicConnectButton> */}
                 <div style={{flex:1}}>
                     <PlaidDisplay user={loggedUser}/>
                 </div>
@@ -284,7 +300,7 @@ export default function WalletsDashboard() {
                 </div>
 
             </div> */}
-        </>
+        </div>
     );
 
     const walletsBasicLayoutProps = {
