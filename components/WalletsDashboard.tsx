@@ -13,7 +13,6 @@ import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import { addWalletByEmail, getFollowingByWalletAddress } from '@/components/utils/wallet.service';
 
 import { getEthAddressBalance } from '@/components/utils/covalent.service';
-import ListOfDetailedWallets from '@/components/ListOfDetailedWallets';
 import SendFundsModal from '@/components/SendFundsModal';
 import DetailedWallet from '@/components/DetailedWallet';
 import IContact from '@/components/types/IContact';
@@ -39,20 +38,20 @@ export const SendFundModalContext = React.createContext(()=>{});
 
 export default function WalletsDashboard() {
     const { user, handleLogOut, setShowAuthFlow, showAuthFlow, walletConnector } = useDynamicContext();
-    const [loggedUser, setUser] = React.useState<IWrappedUser>(noUser);
 
     const [contactListOpen, setContactListOpen] = React.useState(false);
     const [sendFundModalOpen, setSendFundModalOpen] = React.useState(false);
+    const [detailedUser, setDetailedUser] = React.useState<IWrappedUser>(noUser);
 
-    const userContext = React.useContext(UserContext);
+    const { loggedUser } = React.useContext(UserContext);
 
     useEffect(() => {
         console.log(user);
     }, [user, walletConnector]);
 
     useEffect(() => {
-        setup(userContext);
-    }, [userContext]);
+        setup(loggedUser);
+    }, [loggedUser]);
 
     const setup = async (user: IUser) => {
         let detailedWallets = await getDetailedWallets(user.wallets);
@@ -62,7 +61,7 @@ export default function WalletsDashboard() {
             detailedWallets: detailedWallets,
             wrappedContacts: wrappedContactList,
         } as IWrappedUser;
-        setUser(wrappedUser);
+        setDetailedUser(wrappedUser);
     }
 
     const getDetailedWallets = (wallets: IWallet[]) => {
@@ -151,7 +150,7 @@ export default function WalletsDashboard() {
     }
 
     const getTotalBalanceOfUser = () => {
-        return loggedUser.detailedWallets.reduce((total, wallet) => {
+        return detailedUser.detailedWallets.reduce((total, wallet) => {
             return total + wallet.detailedCoinInfos.reduce((total, coinInfo) => {
                 return total + coinInfo.quote;
             }, 0);
@@ -164,17 +163,6 @@ export default function WalletsDashboard() {
 
     const closeSendFundModal = () => {
         setSendFundModalOpen(false);
-    }
-
-    const addWallet = async () => {
-        let wallet = {
-            name: "Wallet 1",
-            address: "0x0dFFCe077ec519615C8Dd7Ee386e1dDAa596EB23",
-            ens: "madhuran.eth",
-            lens: "madhuran.lens",
-            isFavorite: false,
-        } as IWallet;
-        addWalletByEmail({email_address: loggedUser.email, wallet: wallet});
     }
 
     const addNewWallets = () => {
@@ -202,8 +190,6 @@ export default function WalletsDashboard() {
         // await disconnect();
     }
 
-    const [cryptoDisplayOption, setCryptoDisplayOption] = React.useState("Wallets");
-
     const navBarProps = {
         crumbName: "Wallets",
         crumbNameClickHandler: closeContactList,
@@ -211,12 +197,6 @@ export default function WalletsDashboard() {
         navActionElement: {icon:faAddressBook, size:"lg"} as FontAwesomeIconProps,
         navActionClickHandler: showContactList,
     } as INavBarProps;
-
-    // bgColor?: string;
-    // borderColor?: string;
-    // width?: string;
-    // children?: React.ReactNode;
-
 
     const bodyContent = (
         <>
@@ -244,7 +224,7 @@ export default function WalletsDashboard() {
 
             {/* Crypto wallets */}
             {
-                loggedUser.detailedWallets.map((wallet : IDetailedWallet) => {
+                detailedUser.detailedWallets.map((wallet : IDetailedWallet) => {
                     return (
                         <DetailedWallet key={wallet.address} detailedWallet={wallet} />
                     )
@@ -295,7 +275,7 @@ export default function WalletsDashboard() {
     const contactListDrawerProps = {
         anchor: "left",
         open: contactListOpen,
-        pageContent: (<ContactList close={closeContactList} wrappedContacts={loggedUser.wrappedContacts}/>),
+        pageContent: (<ContactList close={closeContactList} wrappedContacts={detailedUser.wrappedContacts}/>),
     } as IFullPageDrawerProps;
 
     return (
@@ -305,7 +285,7 @@ export default function WalletsDashboard() {
                 <FullPageDrawer
                     fullPageDrawerProps={contactListDrawerProps}
                 />
-                <SendFundsModal userDetailedWallets={loggedUser.detailedWallets} open={sendFundModalOpen} handleClose={closeSendFundModal} />
+                <SendFundsModal userDetailedWallets={detailedUser.detailedWallets} open={sendFundModalOpen} handleClose={closeSendFundModal} />
             </SendFundModalContext.Provider>
         </div>
     );

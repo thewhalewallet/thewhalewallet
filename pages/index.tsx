@@ -6,10 +6,17 @@ import React from 'react';
 import WalletsDashboard from '@/components/WalletsDashboard';
 import { getUserByEmail } from '@/components/utils/contact.service';
 import { noUser } from '@/components/types/hardcoded/noUser';
-
-export const UserContext = React.createContext({} as IUser);
-import { PlaidChart } from '@/components/plaid/PlaidChart';
 import WalletDisplay from '@/components/WalletDisplay';
+
+interface IUserContext{
+    loggedUser: IUser;
+    refreshLoggedUser: () => void;
+}
+
+export const UserContext = React.createContext<IUserContext>({
+    loggedUser: {} as IUser,
+    refreshLoggedUser: () => {},
+});
 
 export default function Dashboard() {
     const [currentUser, setCurrentUser] = useState<IUser>(noUser);
@@ -19,14 +26,18 @@ export default function Dashboard() {
             await getUserByEmail({ user_email: "fake_email@gmail.com"}).then((user) => {
                 setCurrentUser(user);
             });
-        } 
-        init();  
-    }, []);
+        }
+        init();
+    }, [currentUser]);
 
-    
+
+    const refreshLoggedUser = async () => {
+        console.log("refreshing logged user");
+    };
+        
     return (
         <div className="takespace">
-            <UserContext.Provider value={currentUser}>
+            <UserContext.Provider value={{loggedUser: currentUser, refreshLoggedUser: refreshLoggedUser}}>
                 <WalletsDashboard />
                 <WalletDisplay />
             </UserContext.Provider>
