@@ -31,8 +31,9 @@ const PlaidLink: React.FC<LinkProps> = (props: LinkProps) => {
         open();
       }}
       disabled={!ready}
-      >
-      Add Bank Account
+      className="btn btn-secondary btn-sm"
+    >
+      Add Account
     </button>
   );
 };

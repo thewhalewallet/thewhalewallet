@@ -6,23 +6,23 @@ import INavBarProps from './types/props/INavBarProps';
 
 export default function Navbar({ navBarProps } : { navBarProps: INavBarProps }) {
     return (
-        <Box sx={{width: "100%", height: "60px", display: "flex", alignItems: "center"}}>
-            <div style={{display: "flex", alignItems: "center", flexBasis:"0%", flexGrow:1}} 
-                onClick={navBarProps.crumbNameClickHandler}
-            >
-                <h4>{navBarProps.crumbName}</h4>
+        <div className="navbar bg-base-100">
+            <div className="flex-1">
+                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                        <div className="w-max rounded-full">
+                            <Image className="object-scale-down" src="/logo.jpeg" alt='' width={512} height={512} />
+                        </div>
+                    </label>
             </div>
-            <h3>{navBarProps.navTitle}</h3>
-            <div style={{flexBasis:"0%", flexGrow:1, textAlign: "right"}}
-                onClick={navBarProps.navActionClickHandler}
-            >
-                {/* If navActionElement is a string, display the string, else display fontAwesomeIcon */}
-                {typeof navBarProps.navActionElement === "string" ?
-                    <h4>{navBarProps.navActionElement}</h4> :
-                    <FontAwesomeIcon {...navBarProps.navActionElement} />
-                }
+            <div className="flex-1" onClick={() => {
+                router.push("/")
+            }}>
+                <a className="btn btn-ghost normal-case text-l text-sky-700">WhaleWallet</a>
             </div>
-        </Box>
+            <div className="flex-1">
+                <DynamicWidget />
+            </div>
+        </div>
     );
 }
 

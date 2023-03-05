@@ -4,17 +4,7 @@ import IUser from '../types/IUser';
 export default function PlaidDisplay({user}: {user: IUser}) {
 
     if (user._id !== undefined) {
-        return (
-            <div>
-                <PlaidInit user_id={user._id }/>
-            </div>
-        );
+        return <PlaidInit user_id={user._id }/>
     }
-    return (
-        <div>
-            <p>loading</p>
-        </div>
-    );
-
-
+    return <p>loading</p>
 }
