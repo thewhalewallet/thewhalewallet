@@ -4,6 +4,7 @@
 <img src="https://raw.githubusercontent.com/thewhalewallet/thewhalewallet/main/public/logo_transparent.png" width="400" height="400">
 
 Link to live web application (for phone only): https://thewhalewallet-git-thomas-whalewallet.vercel.app/
+
 Link to video presentation: https://youtu.be/uVvGBQm-jqo
 
 ## Project Descrption
