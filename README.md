@@ -5,7 +5,6 @@
 
 📱 [Link to live web application (for phone only)](https://thewhalewallet-git-thomas-whalewallet.vercel.app/)
 
-🎥 [Link to video presentation:](https://youtu.be/uVvGBQm-jqo)
 
 ## Project Descrption
 The Whale Wallet is more than just a wallet aggregator. The Whale Wallet helps you seamlessly manage all your web3 native assets together with traditional fiat accounts all in one place. Account abstraction and user authentication using traditional accounts/identity or web3 authentication signing options helps onboard any user and makes the web3 experience a seamless part of your everyday lives.
